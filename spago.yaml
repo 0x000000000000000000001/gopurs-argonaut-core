@@ -1,0 +1,14 @@
+package:
+  name: "argonaut-core"
+  dependencies:
+    - arrays
+    - control
+    - either
+    - foreign-object
+    - functions
+    - gen
+    - maybe
+    - nonempty
+    - prelude
+    - strings
+    - tailrec
