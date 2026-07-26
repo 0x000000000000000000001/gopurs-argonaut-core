@@ -1,41 +1,41 @@
 
 
-func FromBoolean(_ any) any {
+func FromBoolean(_ interface{}) interface{} {
 	panic("Not implemented: fromBoolean")
 }
 
-func FromNumber(_ any) any {
+func FromNumber(_ interface{}) interface{} {
 	panic("Not implemented: fromNumber")
 }
 
-func FromString(_ any) any {
+func FromString(_ interface{}) interface{} {
 	panic("Not implemented: fromString")
 }
 
-func FromArray(_ any) any {
+func FromArray(_ interface{}) interface{} {
 	panic("Not implemented: fromArray")
 }
 
-func FromObject(_ any) any {
+func FromObject(_ interface{}) interface{} {
 	panic("Not implemented: fromObject")
 }
 
-func JsonNull() any {
+func JsonNull() interface{} {
 	panic("Not implemented: jsonNull")
 }
 
-func Stringify(_ any) any {
+func Stringify(_ interface{}) interface{} {
 	panic("Not implemented: stringify")
 }
 
-func StringifyWithIndent(_ any, _ any) any {
+func StringifyWithIndent(_ interface{}, _ interface{}) interface{} {
 	panic("Not implemented: stringifyWithIndent")
 }
 
-func _CaseJson(_ any, _ any, _ any, _ any, _ any, _ any, _ any) any {
+func _CaseJson(_ interface{}, _ interface{}, _ interface{}, _ interface{}, _ interface{}, _ interface{}, _ interface{}) interface{} {
 	panic("Not implemented: _caseJson")
 }
 
-func _Compare(_ any, _ any, _ any, _ any, _ any) any {
+func _Compare(_ interface{}, _ interface{}, _ interface{}, _ interface{}, _ interface{}) interface{} {
 	panic("Not implemented: _compare")
 }
