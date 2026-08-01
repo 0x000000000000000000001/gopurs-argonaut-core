@@ -3,6 +3,7 @@
 import (
 	"bytes"
 	"encoding/json"
+	"fmt"
 	"gopurs/output/gopurs_runtime"
 	"sort"
 )
@@ -61,24 +62,56 @@ func isArray(a interface{}) bool {
 }
 
 func _CaseJson(onNull interface{}, onBool interface{}, onNum interface{}, onStr interface{}, onArr interface{}, onObj interface{}, j interface{}) interface{} {
+	val, isValue := j.(gopurs_runtime.Value)
+	if isValue {
+		switch val.Type {
+		case gopurs_runtime.TypeBool:
+			return gopurs_runtime.Apply(onBool.(gopurs_runtime.Value), val)
+		case gopurs_runtime.TypeInt, gopurs_runtime.TypeFloat:
+			return gopurs_runtime.Apply(onNum.(gopurs_runtime.Value), val)
+		case gopurs_runtime.TypeString:
+			return gopurs_runtime.Apply(onStr.(gopurs_runtime.Value), val)
+		case gopurs_runtime.TypeArray:
+			return gopurs_runtime.Apply(onArr.(gopurs_runtime.Value), val)
+		case gopurs_runtime.TypeRecord, gopurs_runtime.TypeRecord0, gopurs_runtime.TypeRecord1, gopurs_runtime.TypeRecord2, gopurs_runtime.TypeRecord3, gopurs_runtime.TypeRecord4, gopurs_runtime.TypeRecord5, gopurs_runtime.TypeRecordData:
+			return gopurs_runtime.Apply(onObj.(gopurs_runtime.Value), val)
+		case gopurs_runtime.TypeAny:
+			if val.UnsafePtr == nil {
+				return gopurs_runtime.Apply(onNull.(gopurs_runtime.Value), gopurs_runtime.Value{})
+			}
+			j = val.AnyVal()
+		default:
+			if val.Type == 0 {
+				return gopurs_runtime.Apply(onNull.(gopurs_runtime.Value), gopurs_runtime.Value{})
+			}
+			panic(fmt.Sprintf("unknown JSON type %d", val.Type))
+		}
+	}
+
 	if j == nil {
 		return gopurs_runtime.Apply(onNull.(gopurs_runtime.Value), gopurs_runtime.Value{})
 	}
 	switch v := j.(type) {
 	case bool:
-		return gopurs_runtime.Apply(onBool.(gopurs_runtime.Value), gopurs_runtime.Any(v))
+		return gopurs_runtime.Apply(onBool.(gopurs_runtime.Value), gopurs_runtime.Bool(v))
 	case float64:
-		return gopurs_runtime.Apply(onNum.(gopurs_runtime.Value), gopurs_runtime.Any(v))
+		return gopurs_runtime.Apply(onNum.(gopurs_runtime.Value), gopurs_runtime.Float(v))
 	case int64:
-		return gopurs_runtime.Apply(onNum.(gopurs_runtime.Value), gopurs_runtime.Any(float64(v)))
+		return gopurs_runtime.Apply(onNum.(gopurs_runtime.Value), gopurs_runtime.Float(float64(v)))
+	case int:
+		return gopurs_runtime.Apply(onNum.(gopurs_runtime.Value), gopurs_runtime.Float(float64(v)))
 	case string:
-		return gopurs_runtime.Apply(onStr.(gopurs_runtime.Value), gopurs_runtime.Any(v))
+		return gopurs_runtime.Apply(onStr.(gopurs_runtime.Value), gopurs_runtime.Str(v))
 	case []interface{}:
-		return gopurs_runtime.Apply(onArr.(gopurs_runtime.Value), gopurs_runtime.Any(v))
+		return gopurs_runtime.Apply(onArr.(gopurs_runtime.Value), gopurs_runtime.Box(v))
+	case []gopurs_runtime.Value:
+		return gopurs_runtime.Apply(onArr.(gopurs_runtime.Value), gopurs_runtime.Array(v))
 	case map[string]interface{}:
-		return gopurs_runtime.Apply(onObj.(gopurs_runtime.Value), gopurs_runtime.Any(v))
+		return gopurs_runtime.Apply(onObj.(gopurs_runtime.Value), gopurs_runtime.Box(v))
+	case *map[string]interface{}:
+		return gopurs_runtime.Apply(onObj.(gopurs_runtime.Value), gopurs_runtime.Box(*v))
 	default:
-		panic("unknown JSON type")
+		panic(fmt.Sprintf("unknown JSON type %T", v))
 	}
 }
 
