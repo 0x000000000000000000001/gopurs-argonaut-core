@@ -3,48 +3,45 @@
 import (
 	"bytes"
 	"encoding/json"
-	"fmt"
-	"gopurs/output/gopurs_runtime"
 	"sort"
 )
 
-func FromBoolean(b interface{}) interface{} {
+func FromBoolean(b any) any {
 	return b
 }
 
-func FromNumber(n interface{}) interface{} {
+func FromNumber(n any) any {
 	return n
 }
 
-func FromString(s interface{}) interface{} {
+func FromString(s any) any {
 	return s
 }
 
-func FromArray(a interface{}) interface{} {
+func FromArray(a any) any {
 	return a
 }
 
-func FromObject(o interface{}) interface{} {
+func FromObject(o any) any {
 	return o
 }
 
-func JsonNull() interface{} {
+func JsonNull() any {
 	return nil
 }
 
-func Stringify(j interface{}) interface{} {
+func Stringify(j any) string {
 	b, _ := json.Marshal(j)
-	return gopurs_runtime.Str(string(b))
+	return string(b)
 }
 
-func StringifyWithIndent(i interface{}, j interface{}) interface{} {
-	indent := int(i.(gopurs_runtime.Value).IntVal)
+func StringifyWithIndent(i int, j any) string {
 	spaces := ""
-	if indent > 10 {
-		indent = 10
-	}
-	if indent > 0 {
-		for k := 0; k < indent; k++ {
+	if i > 0 {
+		if i > 10 {
+			i = 10
+		}
+		for k := 0; k < i; k++ {
 			spaces += " "
 		}
 	}
@@ -53,69 +50,15 @@ func StringifyWithIndent(i interface{}, j interface{}) interface{} {
 	enc.SetIndent("", spaces)
 	enc.SetEscapeHTML(false)
 	enc.Encode(j)
-	return gopurs_runtime.Str(buf.String())
+	return buf.String()
 }
 
-func isArray(a interface{}) bool {
-	_, ok := a.([]interface{})
+func isArray(a any) bool {
+	_, ok := a.([]any)
 	return ok
 }
 
-func _CaseJson(onNull interface{}, onBool interface{}, onNum interface{}, onStr interface{}, onArr interface{}, onObj interface{}, j interface{}) interface{} {
-	val, isValue := j.(gopurs_runtime.Value)
-	if isValue {
-		switch val.Type {
-		case gopurs_runtime.TypeBool:
-			return gopurs_runtime.Apply(onBool.(gopurs_runtime.Value), val)
-		case gopurs_runtime.TypeInt, gopurs_runtime.TypeFloat:
-			return gopurs_runtime.Apply(onNum.(gopurs_runtime.Value), val)
-		case gopurs_runtime.TypeString:
-			return gopurs_runtime.Apply(onStr.(gopurs_runtime.Value), val)
-		case gopurs_runtime.TypeArray:
-			return gopurs_runtime.Apply(onArr.(gopurs_runtime.Value), val)
-		case gopurs_runtime.TypeRecord, gopurs_runtime.TypeRecord0, gopurs_runtime.TypeRecord1, gopurs_runtime.TypeRecord2, gopurs_runtime.TypeRecord3, gopurs_runtime.TypeRecord4, gopurs_runtime.TypeRecord5, gopurs_runtime.TypeRecordData:
-			return gopurs_runtime.Apply(onObj.(gopurs_runtime.Value), val)
-		case gopurs_runtime.TypeAny:
-			if val.UnsafePtr == nil {
-				return gopurs_runtime.Apply(onNull.(gopurs_runtime.Value), gopurs_runtime.Value{})
-			}
-			j = val.AnyVal()
-		default:
-			if val.Type == 0 {
-				return gopurs_runtime.Apply(onNull.(gopurs_runtime.Value), gopurs_runtime.Value{})
-			}
-			panic(fmt.Sprintf("unknown JSON type %d", val.Type))
-		}
-	}
-
-	if j == nil {
-		return gopurs_runtime.Apply(onNull.(gopurs_runtime.Value), gopurs_runtime.Value{})
-	}
-	switch v := j.(type) {
-	case bool:
-		return gopurs_runtime.Apply(onBool.(gopurs_runtime.Value), gopurs_runtime.Bool(v))
-	case float64:
-		return gopurs_runtime.Apply(onNum.(gopurs_runtime.Value), gopurs_runtime.Float(v))
-	case int64:
-		return gopurs_runtime.Apply(onNum.(gopurs_runtime.Value), gopurs_runtime.Float(float64(v)))
-	case int:
-		return gopurs_runtime.Apply(onNum.(gopurs_runtime.Value), gopurs_runtime.Float(float64(v)))
-	case string:
-		return gopurs_runtime.Apply(onStr.(gopurs_runtime.Value), gopurs_runtime.Str(v))
-	case []interface{}:
-		return gopurs_runtime.Apply(onArr.(gopurs_runtime.Value), gopurs_runtime.Box(v))
-	case []gopurs_runtime.Value:
-		return gopurs_runtime.Apply(onArr.(gopurs_runtime.Value), gopurs_runtime.Array(v))
-	case map[string]interface{}:
-		return gopurs_runtime.Apply(onObj.(gopurs_runtime.Value), gopurs_runtime.Box(v))
-	case *map[string]interface{}:
-		return gopurs_runtime.Apply(onObj.(gopurs_runtime.Value), gopurs_runtime.Box(*v))
-	default:
-		panic(fmt.Sprintf("unknown JSON type %T", v))
-	}
-}
-
-func _Compare(EQ interface{}, GT interface{}, LT interface{}, a interface{}, b interface{}) interface{} {
+func _Compare(EQ any, GT any, LT any, a any, b any) any {
 	if a == nil {
 		if b == nil {
 			return EQ
@@ -162,8 +105,8 @@ func _Compare(EQ interface{}, GT interface{}, LT interface{}, a interface{}, b i
 			return GT
 		}
 		return LT
-	case []interface{}:
-		if vb, ok := b.([]interface{}); ok {
+	case []any:
+		if vb, ok := b.([]any); ok {
 			minLen := len(va)
 			if len(vb) < minLen {
 				minLen = len(vb)
@@ -185,8 +128,8 @@ func _Compare(EQ interface{}, GT interface{}, LT interface{}, a interface{}, b i
 			return GT
 		}
 		return LT
-	case map[string]interface{}:
-		if vb, ok := b.(map[string]interface{}); ok {
+	case map[string]any:
+		if vb, ok := b.(map[string]any); ok {
 			if len(va) < len(vb) {
 				return LT
 			} else if len(va) > len(vb) {
@@ -233,17 +176,17 @@ func _Compare(EQ interface{}, GT interface{}, LT interface{}, a interface{}, b i
 	}
 }
 
-func isBool(v interface{}) bool {
+func isBool(v any) bool {
 	_, ok := v.(bool)
 	return ok
 }
 
-func isFloat64(v interface{}) bool {
+func isFloat64(v any) bool {
 	_, ok := v.(float64)
 	return ok
 }
 
-func isString(v interface{}) bool {
+func isString(v any) bool {
 	_, ok := v.(string)
 	return ok
 }
