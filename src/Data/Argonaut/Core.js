@@ -24,16 +24,6 @@ function isArray(a) {
   return Object.prototype.toString.call(a) === "[object Array]";
 }
 
-export function _caseJson(isNull, isBool, isNum, isStr, isArr, isObj, j) {
-  if (j == null) return isNull();
-  else if (typeof j === "boolean") return isBool(j);
-  else if (typeof j === "number") return isNum(j);
-  else if (typeof j === "string") return isStr(j);
-  else if (Object.prototype.toString.call(j) === "[object Array]")
-    return isArr(j);
-  else return isObj(j);
-}
-
 export function _compare(EQ, GT, LT, a, b) {
   if (a == null) {
     if (b == null) return EQ;

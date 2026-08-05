@@ -4,7 +4,78 @@ import (
 	"bytes"
 	"encoding/json"
 	"sort"
+	"gopurs/output/gopurs_runtime"
 )
+
+func deepUnbox(v interface{}) interface{} {
+	if val, ok := v.(gopurs_runtime.Value); ok {
+		switch val.Type {
+		case gopurs_runtime.TypeInt:
+			return val.IntVal
+		case gopurs_runtime.TypeFloat:
+			if val.UnsafePtr != nil {
+				return *(*float64)(val.UnsafePtr)
+			}
+			return 0.0
+		case gopurs_runtime.TypeString:
+			if val.UnsafePtr != nil {
+				return *(*string)(val.UnsafePtr)
+			}
+			return ""
+		case gopurs_runtime.TypeBool:
+			return val.IntVal != 0
+		case gopurs_runtime.TypeArray:
+			if val.UnsafePtr != nil {
+				arr := *(*[]gopurs_runtime.Value)(val.UnsafePtr)
+				res := make([]interface{}, len(arr))
+				for i, x := range arr {
+					res[i] = deepUnbox(x)
+				}
+				return res
+			}
+			return []interface{}{}
+		case gopurs_runtime.TypeRecord, gopurs_runtime.TypeRecord0, gopurs_runtime.TypeRecord1, gopurs_runtime.TypeRecord2, gopurs_runtime.TypeRecord3, gopurs_runtime.TypeRecord4, gopurs_runtime.TypeRecord5:
+			rec := gopurs_runtime.RecordToMap(val)
+			res := make(map[string]interface{})
+			for k, x := range rec {
+				res[k] = deepUnbox(x)
+			}
+			return res
+		case gopurs_runtime.TypeAny:
+			if val.UnsafePtr == nil {
+				return nil
+			}
+			if *(*any)(val.UnsafePtr) == nil {
+				return nil
+			}
+			return deepUnbox(*(*any)(val.UnsafePtr))
+		default:
+			return nil
+		}
+	}
+	if valSlice, ok := v.([]gopurs_runtime.Value); ok {
+		res := make([]interface{}, len(valSlice))
+		for i, x := range valSlice {
+			res[i] = deepUnbox(x)
+		}
+		return res
+	}
+	if mapRaw, ok := v.(map[string]interface{}); ok {
+		res := make(map[string]interface{})
+		for k, x := range mapRaw {
+			res[k] = deepUnbox(x)
+		}
+		return res
+	}
+	if arrRaw, ok := v.([]interface{}); ok {
+		res := make([]interface{}, len(arrRaw))
+		for i, x := range arrRaw {
+			res[i] = deepUnbox(x)
+		}
+		return res
+	}
+	return v
+}
 
 func FromBoolean(b any) any {
 	return b
@@ -31,7 +102,7 @@ func JsonNull() any {
 }
 
 func Stringify(j any) string {
-	b, _ := json.Marshal(j)
+	b, _ := json.Marshal(deepUnbox(j))
 	return string(b)
 }
 
@@ -49,16 +120,18 @@ func StringifyWithIndent(i int, j any) string {
 	enc := json.NewEncoder(&buf)
 	enc.SetIndent("", spaces)
 	enc.SetEscapeHTML(false)
-	enc.Encode(j)
+	enc.Encode(deepUnbox(j))
 	return buf.String()
 }
 
 func isArray(a any) bool {
-	_, ok := a.([]any)
+	_, ok := deepUnbox(a).([]any)
 	return ok
 }
 
 func _Compare(EQ any, GT any, LT any, a any, b any) any {
+	a = deepUnbox(a)
+	b = deepUnbox(b)
 	if a == nil {
 		if b == nil {
 			return EQ
@@ -177,17 +250,17 @@ func _Compare(EQ any, GT any, LT any, a any, b any) any {
 }
 
 func isBool(v any) bool {
-	_, ok := v.(bool)
+	_, ok := deepUnbox(v).(bool)
 	return ok
 }
 
 func isFloat64(v any) bool {
-	_, ok := v.(float64)
+	_, ok := deepUnbox(v).(float64)
 	return ok
 }
 
 func isString(v any) bool {
-	_, ok := v.(string)
+	_, ok := deepUnbox(v).(string)
 	return ok
 }
 

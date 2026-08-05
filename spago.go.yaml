@@ -4,6 +4,7 @@ package:
     - arrays
     - control
     - either
+    - foreign
     - foreign-object
     - functions
     - gen
@@ -28,6 +29,7 @@ package:
       - foldable-traversable
       - maybe
       - prelude
+      - quickcheck
       - refs
       - tailrec
 
