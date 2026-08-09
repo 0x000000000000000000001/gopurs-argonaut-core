@@ -13,10 +13,7 @@ func deepUnbox(v interface{}) interface{} {
 		case gopurs_runtime.TypeInt:
 			return val.IntVal
 		case gopurs_runtime.TypeFloat:
-			if val.UnsafePtr != nil {
-				return *(*float64)(val.UnsafePtr)
-			}
-			return 0.0
+			return val.FloatVal()
 		case gopurs_runtime.TypeString:
 			if val.UnsafePtr != nil {
 				return *(*string)(val.UnsafePtr)
