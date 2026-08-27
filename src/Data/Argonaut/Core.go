@@ -7,7 +7,7 @@ import (
 	"gopurs/output/gopurs_runtime"
 )
 
-func deepUnbox(v interface{}) interface{} {
+func argonautDeepUnbox(v interface{}) interface{} {
 	if val, ok := v.(gopurs_runtime.Value); ok {
 		switch val.Type {
 		case gopurs_runtime.TypeInt:
@@ -26,7 +26,7 @@ func deepUnbox(v interface{}) interface{} {
 				arr := *(*[]gopurs_runtime.Value)(val.UnsafePtr)
 				res := make([]interface{}, len(arr))
 				for i, x := range arr {
-					res[i] = deepUnbox(x)
+					res[i] = argonautDeepUnbox(x)
 				}
 				return res
 			}
@@ -35,7 +35,7 @@ func deepUnbox(v interface{}) interface{} {
 			rec := gopurs_runtime.RecordToMap(val)
 			res := make(map[string]interface{})
 			for k, x := range rec {
-				res[k] = deepUnbox(x)
+				res[k] = argonautDeepUnbox(x)
 			}
 			return res
 		case gopurs_runtime.TypeAny:
@@ -45,7 +45,7 @@ func deepUnbox(v interface{}) interface{} {
 			if *(*any)(val.UnsafePtr) == nil {
 				return nil
 			}
-			return deepUnbox(*(*any)(val.UnsafePtr))
+			return argonautDeepUnbox(*(*any)(val.UnsafePtr))
 		default:
 			return nil
 		}
@@ -53,21 +53,21 @@ func deepUnbox(v interface{}) interface{} {
 	if valSlice, ok := v.([]gopurs_runtime.Value); ok {
 		res := make([]interface{}, len(valSlice))
 		for i, x := range valSlice {
-			res[i] = deepUnbox(x)
+			res[i] = argonautDeepUnbox(x)
 		}
 		return res
 	}
 	if mapRaw, ok := v.(map[string]interface{}); ok {
 		res := make(map[string]interface{})
 		for k, x := range mapRaw {
-			res[k] = deepUnbox(x)
+			res[k] = argonautDeepUnbox(x)
 		}
 		return res
 	}
 	if arrRaw, ok := v.([]interface{}); ok {
 		res := make([]interface{}, len(arrRaw))
 		for i, x := range arrRaw {
-			res[i] = deepUnbox(x)
+			res[i] = argonautDeepUnbox(x)
 		}
 		return res
 	}
@@ -99,7 +99,7 @@ func JsonNull() any {
 }
 
 func Stringify(j any) string {
-	b, _ := json.Marshal(deepUnbox(j))
+	b, _ := json.Marshal(argonautDeepUnbox(j))
 	return string(b)
 }
 
@@ -117,18 +117,22 @@ func StringifyWithIndent(i int, j any) string {
 	enc := json.NewEncoder(&buf)
 	enc.SetIndent("", spaces)
 	enc.SetEscapeHTML(false)
-	enc.Encode(deepUnbox(j))
+	enc.Encode(argonautDeepUnbox(j))
 	return buf.String()
 }
 
 func isArray(a any) bool {
-	_, ok := deepUnbox(a).([]any)
+	_, ok := argonautDeepUnbox(a).([]any)
 	return ok
 }
 
 func _Compare(EQ any, GT any, LT any, a any, b any) any {
-	a = deepUnbox(a)
-	b = deepUnbox(b)
+	return argonautCompare(EQ, GT, LT, a, b)
+}
+
+func argonautCompare(EQ any, GT any, LT any, a any, b any) any {
+	a = argonautDeepUnbox(a)
+	b = argonautDeepUnbox(b)
 	if a == nil {
 		if b == nil {
 			return EQ
@@ -182,7 +186,7 @@ func _Compare(EQ any, GT any, LT any, a any, b any) any {
 				minLen = len(vb)
 			}
 			for i := 0; i < minLen; i++ {
-				ca := _Compare(EQ, GT, LT, va[i], vb[i])
+				ca := argonautCompare(EQ, GT, LT, va[i], vb[i])
 				if ca != EQ {
 					return ca
 				}
@@ -233,7 +237,7 @@ func _Compare(EQ any, GT any, LT any, a any, b any) any {
 				} else if !okB {
 					return GT
 				}
-				ck := _Compare(EQ, GT, LT, valA, valB)
+				ck := argonautCompare(EQ, GT, LT, valA, valB)
 				if ck != EQ {
 					return ck
 				}
@@ -242,22 +246,22 @@ func _Compare(EQ any, GT any, LT any, a any, b any) any {
 		}
 		return GT
 	default:
-		panic("unknown JSON type in _Compare")
+		panic("unknown JSON type in argonautCompare")
 	}
 }
 
 func isBool(v any) bool {
-	_, ok := deepUnbox(v).(bool)
+	_, ok := argonautDeepUnbox(v).(bool)
 	return ok
 }
 
 func isFloat64(v any) bool {
-	_, ok := deepUnbox(v).(float64)
+	_, ok := argonautDeepUnbox(v).(float64)
 	return ok
 }
 
 func isString(v any) bool {
-	_, ok := deepUnbox(v).(string)
+	_, ok := argonautDeepUnbox(v).(string)
 	return ok
 }
 
