@@ -1,0 +1,90 @@
+{
+  "annotation": {
+    "meta": null,
+    "sourceSpan": {
+      "end": [
+        68,
+        31
+      ],
+      "start": [
+        68,
+        8
+      ]
+    },
+    "type": 140
+  },
+  "expression": {
+    "annotation": {
+      "meta": {
+        "metaType": "IsForeign"
+      },
+      "sourceSpan": {
+        "end": [
+          68,
+          20
+        ],
+        "start": [
+          68,
+          8
+        ]
+      },
+      "type": 141
+    },
+    "type": "Var",
+    "value": {
+      "identifier": "caseJsonNull",
+      "moduleName": [
+        "Data",
+        "Argonaut",
+        "Core"
+      ]
+    }
+  },
+  "type": "TypeApp",
+  "typeArgument": 2
+}
+{
+  "annotation": {
+    "meta": null,
+    "sourceSpan": {
+      "end": [
+        102,
+        30
+      ],
+      "start": [
+        102,
+        12
+      ]
+    },
+    "type": 165
+  },
+  "expression": {
+    "annotation": {
+      "meta": {
+        "metaType": "IsForeign"
+      },
+      "sourceSpan": {
+        "end": [
+          102,
+          24
+        ],
+        "start": [
+          102,
+          12
+        ]
+      },
+      "type": 141
+    },
+    "type": "Var",
+    "value": {
+      "identifier": "caseJsonNull",
+      "moduleName": [
+        "Data",
+        "Argonaut",
+        "Core"
+      ]
+    }
+  },
+  "type": "TypeApp",
+  "typeArgument": 5
+}

@@ -44,7 +44,9 @@ import Prelude
 
 import Data.Function.Uncurried (Fn5, runFn5)
 import Data.Maybe (Maybe(..))
+import Data.Tuple (Tuple)
 import Foreign.Object (Object)
+import Unsafe.Coerce (unsafeCoerce)
 import Foreign.Object as Obj
 import Foreign (tagOf, unsafeToForeign, unsafeFromForeign)
 
@@ -71,6 +73,16 @@ instance ordJNull :: Ord JNull where
   compare _ _ = EQ
 
 -- | Case analysis for `Json` values. See the README for more information.
+foreign import caseJsonImpl
+  :: (Unit -> Json)
+  -> (Boolean -> Json)
+  -> (Number -> Json)
+  -> (String -> Json)
+  -> (Array Json -> Json)
+  -> (Object Json -> Json)
+  -> Json
+  -> Json
+
 caseJson
   :: forall a
    . (Unit -> a)
@@ -81,17 +93,15 @@ caseJson
   -> (Object Json -> a)
   -> Json
   -> a
-caseJson onNull onBool onNum onStr onArr onObj json = 
-  case tagOf (unsafeToForeign json) of
-    "Null" -> onNull unit
-    "Undefined" -> onNull unit
-    "Boolean" -> onBool (unsafeFromForeign (unsafeToForeign json))
-    "Number" -> onNum (unsafeFromForeign (unsafeToForeign json))
-    "String" -> onStr (unsafeFromForeign (unsafeToForeign json))
-    "Array" -> onArr (unsafeFromForeign (unsafeToForeign json))
-    "Object" -> onObj (unsafeFromForeign (unsafeToForeign json))
-    _ -> onNull unit
-
+caseJson onNull onBool onNum onStr onArr onObj j =
+  unsafeCoerce (caseJsonImpl 
+    (unsafeCoerce onNull)
+    (unsafeCoerce onBool)
+    (unsafeCoerce onNum)
+    (unsafeCoerce onStr)
+    (unsafeCoerce onArr)
+    (unsafeCoerce onObj)
+    j)
 -- | A simpler version of `caseJson` which accepts a callback for when the
 -- | `Json` argument was null, and a default value for all other cases.
 caseJsonNull :: forall a. a -> (Unit -> a) -> Json -> a

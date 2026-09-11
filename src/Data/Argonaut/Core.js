@@ -90,3 +90,23 @@ export function _compare(EQ, GT, LT, a, b) {
     }
   }
 }
+export const caseJsonImpl = function (onNull) {
+  return function (onBool) {
+    return function (onNum) {
+      return function (onStr) {
+        return function (onArr) {
+          return function (onObj) {
+            return function (j) {
+              if (j === null) return onNull();
+              if (typeof j === "boolean") return onBool(j);
+              if (typeof j === "number") return onNum(j);
+              if (typeof j === "string") return onStr(j);
+              if (Array.isArray(j)) return onArr(j);
+              return onObj(j);
+            };
+          };
+        };
+      };
+    };
+  };
+};

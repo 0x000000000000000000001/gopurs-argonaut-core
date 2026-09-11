@@ -1,0 +1,990 @@
+=== Recompiling ../gopurs ===
+
+> gopurs@0.1.0 build
+> spago build && spago bundle --module Main --platform node --outfile bin/gopurs.js --bundle-type app
+
+Reading Spago workspace configuration...
+
+✓ Selecting package to build: gopurs
+
+Downloading dependencies...
+Building...
+[1 of 3] Compiling Gopurs.CodeGen
+[2 of 3] Compiling Gopurs.ConstructorMetadata
+[3 of 3] Compiling Main
+[WARNING 1/32 UnusedName] src/Gopurs/CodeGen.purs:222:21
+
+  222  extractUncurriedAbs tcoExpr@(TcoExpr _ syntax) = case syntax of
+                           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+  Name tcoExpr was introduced but not used.
+  in value declaration extractUncurriedAbs
+
+[WARNING 2/32 ShadowedName] src/Gopurs/CodeGen.purs:372:5
+
+  372      getExprType (TcoExpr _ (Typed ty _)) = ty
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+  Name getExprType was shadowed.
+  in value declaration translate
+
+[WARNING 3/32 ShadowedName] src/Gopurs/CodeGen.purs:373:5
+
+  373      getExprType _ = Any -- fallback
+           ^^^^^^^^^^^^^^^^^^^
+
+  Name getExprType was shadowed.
+  in value declaration translate
+
+[WARNING 4/32 UnusedName] src/Gopurs/CodeGen.purs:382:28
+
+  382                Just { args, body } ->
+                                  ^^^^
+
+  Name body was introduced but not used.
+  in value declaration translate
+
+[WARNING 5/32 UnusedName] src/Gopurs/CodeGen.purs:464:44
+
+  464                                      Just { fRet, fArgs } | arity < Array.length fArgs -> TypeValue
+                                                  ^^^^
+
+  Name fRet was introduced but not used.
+  in value declaration translate
+
+[WARNING 6/32 UnusedName] src/Gopurs/CodeGen.purs:631:7
+
+  631    Let ident lvl val body -> "Let(" <> printTcoExprShape body <> ")"
+             ^^^^^
+
+  Name ident was introduced but not used.
+  in value declaration printTcoExprShape
+
+[WARNING 7/32 UnusedName] src/Gopurs/CodeGen.purs:631:13
+
+  631    Let ident lvl val body -> "Let(" <> printTcoExprShape body <> ")"
+                   ^^^
+
+  Name lvl was introduced but not used.
+  in value declaration printTcoExprShape
+
+[WARNING 8/32 UnusedName] src/Gopurs/CodeGen.purs:631:17
+
+  631    Let ident lvl val body -> "Let(" <> printTcoExprShape body <> ")"
+                       ^^^
+
+  Name val was introduced but not used.
+  in value declaration printTcoExprShape
+
+[WARNING 9/32 UnusedName] src/Gopurs/CodeGen.purs:632:7
+
+  632    Abs ident body -> "Abs(" <> printTcoExprShape body <> ")"
+             ^^^^^
+
+  Name ident was introduced but not used.
+  in value declaration printTcoExprShape
+
+[WARNING 10/32 UnusedName] src/Gopurs/CodeGen.purs:633:10
+
+  633    App fn arg -> "App(" <> printTcoExprShape fn <> ")"
+                ^^^
+
+  Name arg was introduced but not used.
+  in value declaration printTcoExprShape
+
+[WARNING 11/32 UnusedName] src/Gopurs/CodeGen.purs:646:19
+
+  646    UncurriedApp fn args -> "UncurriedApp(" <> printTcoExprShape fn <> ")"
+                         ^^^^
+
+  Name args was introduced but not used.
+  in value declaration printTcoExprShape
+
+[WARNING 12/32 UnusedName] src/Gopurs/CodeGen.purs:647:25
+
+  647    UncurriedEffectApp fn args -> "UncurriedEffectApp(" <> printTcoExprShape fn <> ")"
+                               ^^^^
+
+  Name args was introduced but not used.
+  in value declaration printTcoExprShape
+
+[WARNING 13/32 UserDefinedWarning] src/Gopurs/CodeGen.purs:773:1
+
+  773  translateExprWithExpectedType :: Ref CodegenState -> Int -> String -> Array String -> ModuleFunctions -> LocalEnv -> Maybe String -> LoopContext -> ExprOptions -> Maybe ExprType -> Int -> TcoExpr -> ExprResult
+       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+  A custom warning occurred while solving type class constraints:
+    Debug function usage
+  in binding group translateExprWithExpectedType, translateExpr
+
+[WARNING 14/32 UnusedName] src/Gopurs/CodeGen.purs:797:91
+
+  797                  Lit (LitRecord props), TypeStructPointer baseStructName fullName fullPath tArgs ->
+                                                                                                 ^^^^^
+
+  Name tArgs was introduced but not used.
+  in value declaration translateExprWithExpectedType
+
+[WARNING 15/32 ShadowedName] src/Gopurs/CodeGen.purs:803:31
+
+  803                            ADT fullName _ tArgs ->
+                                     ^^^^^^^^
+
+  Name fullName was shadowed.
+  in value declaration translateExprWithExpectedType
+
+[WARNING 16/32 ShadowedName] src/Gopurs/CodeGen.purs:803:42
+
+  803                            ADT fullName _ tArgs ->
+                                                ^^^^^
+
+  Name tArgs was shadowed.
+  in value declaration translateExprWithExpectedType
+
+[WARNING 17/32 ShadowedName] src/Gopurs/CodeGen.purs:958:50
+
+  958                      boxedExprs = Array.zipWith (\expr ty -> boxGoExpr codegenStateRef modNameStr expr ty) accXs.exprs accXs.exprTypes
+                                                        ^^^^
+
+  Name expr was shadowed.
+  in value declaration translateExprWithExpectedType
+
+[WARNING 18/32 UnusedName] src/Gopurs/CodeGen.purs:1001:34
+
+  1001                    Var (Qualified mbMod (Ident name)) ->
+                                         ^^^^^
+
+  Name mbMod was introduced but not used.
+  in value declaration translateExprWithExpectedType
+
+[WARNING 19/32 UnusedName] src/Gopurs/CodeGen.purs:1270:50
+
+  1270                                    TypeFunc fArgs fRet | Array.length fArgs == Array.length flatArgs ->
+                                                         ^^^^
+
+  Name fRet was introduced but not used.
+  in value declaration translateExprWithExpectedType
+
+[WARNING 20/32 UnusedName] src/Gopurs/CodeGen.purs:1576:40
+
+  1576                          Var (Qualified mbMod (Ident name)) ->
+                                               ^^^^^
+
+  Name mbMod was introduced but not used.
+  in value declaration translateExprWithExpectedType
+
+[WARNING 21/32 UnusedName] src/Gopurs/CodeGen.purs:1826:55
+
+  1826                      funcExpr = Array.foldr (\(Tuple p goT) acc -> GoCall (GoSelector (GoVar "gopurs_runtime") "Func") [ GoRaw ("func(" <> p <> "_loop_val gopurs_runtime.Value) gopurs_runtime.Value {\nreturn " <> printGoExpr acc <> "\n}") ]) nativeCallExpr paramsWithTypes
+                                                              ^^^
+
+  Name goT was introduced but not used.
+  in value declaration translateExprWithExpectedType
+
+[WARNING 22/32 UnusedName] src/Gopurs/CodeGen.purs:1895:21
+
+  1895                      combinedLoopCtx = loopCtxs <> loopCtx
+                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+  Name combinedLoopCtx was introduced but not used.
+  in value declaration translateExprWithExpectedType
+
+[WARNING 23/32 UnusedName] src/Gopurs/CodeGen.purs:1955:63
+
+  1955                              funcExpr = Array.foldr (\(Tuple p goT) accExpr -> GoCall (GoSelector (GoVar "gopurs_runtime") "Func") [ GoRaw ("func(" <> p <> "_loop_val gopurs_runtime.Value) gopurs_runtime.Value {\nreturn " <> printGoExpr accExpr <> "\n}") ]) (boxGoExpr codegenStateRef modNameStr nativeCallExpr trueFRet) paramsWithTypes
+                                                                      ^^^
+
+  Name goT was introduced but not used.
+  in value declaration translateExprWithExpectedType
+
+[WARNING 24/32 UnusedName] src/Gopurs/CodeGen.purs:1973:51
+
+  1973                        ( \acc (Tuple (Tuple (Ident ident) val) alloc) ->
+                                                          ^^^^^
+
+  Name ident was introduced but not used.
+  in value declaration translateExprWithExpectedType
+
+[WARNING 25/32 ShadowedName] src/Gopurs/CodeGen.purs:2117:21
+
+  2117                  ADT fullName _ tArgs ->
+                            ^^^^^^^^
+
+  Name fullName was shadowed.
+  in value declaration translateExprWithExpectedType
+
+[WARNING 26/32 UnusedName] src/Gopurs/CodeGen.purs:2125:25
+
+  2125                  TypeApp fn arg ->
+                                ^^
+
+  Name fn was introduced but not used.
+  in value declaration translateExprWithExpectedType
+
+[WARNING 27/32 UnusedName] src/Gopurs/CodeGen.purs:2125:28
+
+  2125                  TypeApp fn arg ->
+                                   ^^^
+
+  Name arg was introduced but not used.
+  in value declaration translateExprWithExpectedType
+
+[WARNING 28/32 UnusedName] src/Gopurs/CodeGen.purs:2131:34
+
+  2131                        Tuple (ADT fnName _ tArgs) allArgs ->
+                                         ^^^^^^
+
+  Name fnName was introduced but not used.
+  in value declaration translateExprWithExpectedType
+
+[WARNING 29/32 ShadowedName] src/Gopurs/CodeGen.purs:2256:21
+
+  2256                  ADT fullName _ tArgs ->
+                            ^^^^^^^^
+
+  Name fullName was shadowed.
+  in value declaration translateExprWithExpectedType
+
+[WARNING 30/32 ShadowedName] src/Gopurs/CodeGen.purs:2317:21
+
+  2317                  ADT fullName _ tArgs ->
+                            ^^^^^^^^
+
+  Name fullName was shadowed.
+  in value declaration translateExprWithExpectedType
+
+[WARNING 31/32 ShadowedName] src/Gopurs/CodeGen.purs:2326:24
+
+  2326                    Just ctorInfo -> map (const TypeValue) ctorInfo.vars
+                               ^^^^^^^^
+
+  Name ctorInfo was shadowed.
+  in value declaration translateExprWithExpectedType
+
+[WARNING 32/32 ShadowedName] src/Gopurs/CodeGen.purs:2334:26
+
+  2334                      Just expr -> { expr: boxGoExpr codegenStateRef modNameStr expr (fromMaybe TypeValue (map (exprTypeToGoType (unsafePerformEffect (Ref.read codegenStateRef)).pointerAdtPaths (unsafePerformEffect (Ref.read codegenStateRef)).enumAdts (unsafePerformEffect (Ref.read codegenStateRef)).elidedCtors modNameStr) (Array.index fields 0))), exprType: TypeValue }
+                                 ^^^^
+
+  Name expr was shadowed.
+  in value declaration translateExprWithExpectedType
+
+           Src   Lib   All
+Warnings    32     0    32
+Errors       0     0     0
+
+✓ Build succeeded.
+
+Reading Spago workspace configuration...
+
+✓ Selecting package to build: gopurs
+
+Downloading dependencies...
+Building...
+           Src   Lib   All
+Warnings     0     0     0
+Errors       0     0     0
+
+✓ Build succeeded.
+
+Bundling...
+
+  bin/gopurs.js  1.6mb ⚠️
+
+⚡ Done in 28ms
+
+✓ Bundle succeeded.
+
+=== Building project with spago ===
+Reading Spago workspace configuration...
+
+✓ Selecting package to build: argonaut-core
+
+Downloading dependencies...
+Building...
+[  1 of 253] Compiling Unsafe.Coerce
+[  4 of 253] Compiling Type.Function
+[  2 of 253] Compiling Type.Proxy
+[  5 of 253] Compiling Data.Traversable.Accum
+[  3 of 253] Compiling Type.Row
+[  6 of 253] Compiling Partial
+[  7 of 253] Compiling Data.NaturalTransformation
+[  8 of 253] Compiling Data.Void
+[ 10 of 253] Compiling Spago.Generated.BuildInfo
+[ 11 of 253] Compiling Record.Unsafe
+[  9 of 253] Compiling Type.Equality
+[ 12 of 253] Compiling Data.Unit
+[ 13 of 253] Compiling Data.Int.Bits
+[ 14 of 253] Compiling Data.String.Unsafe
+[ 15 of 253] Compiling Data.Boolean
+[ 16 of 253] Compiling Control.Semigroupoid
+[ 17 of 253] Compiling Safe.Coerce
+[ 18 of 253] Compiling Data.Exists
+[ 20 of 253] Compiling Data.Symbol
+[ 19 of 253] Compiling Type.Data.Boolean
+[ 21 of 253] Compiling Partial.Unsafe
+[ 22 of 253] Compiling Control.Lazy
+[ 23 of 253] Compiling Data.Function.Uncurried
+[ 24 of 253] Compiling Data.Semiring
+[ 25 of 253] Compiling Data.Semigroup
+[ 26 of 253] Compiling Data.HeytingAlgebra
+[ 27 of 253] Compiling Control.Category
+[ 28 of 253] Compiling Record.Unsafe.Union
+[ 29 of 253] Compiling Data.Show
+[ 30 of 253] Compiling Data.Ring
+[ 31 of 253] Compiling Data.Generic.Rep
+[ 33 of 253] Compiling Data.BooleanAlgebra
+[ 32 of 253] Compiling Data.Eq
+[ 34 of 253] Compiling Data.CommutativeRing
+[ 35 of 253] Compiling Data.Ordering
+[ 36 of 253] Compiling Data.EuclideanRing
+[ 38 of 253] Compiling Type.Data.Ordering
+[ 37 of 253] Compiling Data.Ord
+[ 39 of 253] Compiling Data.DivisionRing
+[ 40 of 253] Compiling Data.Field
+[ 41 of 253] Compiling Type.Data.Symbol
+[ 42 of 253] Compiling Type.RowList
+[ 44 of 253] Compiling Type.Row.Homogeneous
+[ 43 of 253] Compiling Type.Prelude
+[ 45 of 253] Compiling Data.Monoid
+[ 46 of 253] Compiling Data.Bounded
+[ 47 of 253] Compiling Data.Function
+[ 48 of 253] Compiling Data.Reflectable
+[ 49 of 253] Compiling Data.Functor
+[ 50 of 253] Compiling Control.Apply
+[ 51 of 253] Compiling Control.Alt
+[ 52 of 253] Compiling Data.Monoid.Generic
+[ 53 of 253] Compiling Control.Extend
+[ 54 of 253] Compiling Data.Bounded.Generic
+[ 55 of 253] Compiling Control.Plus
+[ 56 of 253] Compiling Control.Comonad
+[ 57 of 253] Compiling Control.Applicative
+[ 59 of 253] Compiling Control.Alternative
+[ 58 of 253] Compiling Control.Bind
+[ 60 of 253] Compiling Control.Monad
+[ 61 of 253] Compiling Control.MonadPlus
+[ 62 of 253] Compiling Prelude
+[ 64 of 253] Compiling Data.Eq.Generic
+[ 63 of 253] Compiling Data.HeytingAlgebra.Generic
+[ 66 of 253] Compiling Data.Monoid.Multiplicative
+[ 68 of 253] Compiling Data.Ord.Generic
+[ 65 of 253] Compiling Record.Builder
+[ 67 of 253] Compiling Data.Semiring.Generic
+[ 69 of 253] Compiling Data.Ring.Generic
+[ 70 of 253] Compiling Data.Semigroup.Generic
+[ 72 of 253] Compiling Control.Monad.Gen.Class
+[ 73 of 253] Compiling Effect
+[ 71 of 253] Compiling Record
+[ 74 of 253] Compiling Control.Monad.Reader.Class
+[ 75 of 253] Compiling Data.Monoid.Dual
+[ 76 of 253] Compiling Data.Show.Generic
+[ 77 of 253] Compiling Data.Number.Format
+[ 78 of 253] Compiling Data.Semigroup.First
+[ 79 of 253] Compiling Data.Traversable.Accum.Internal
+[ 80 of 253] Compiling Data.Monoid.Additive
+[ 81 of 253] Compiling Data.Semigroup.Last
+[ 82 of 253] Compiling Data.Monoid.Endo
+[ 83 of 253] Compiling Control.Monad.Trans.Class
+[ 85 of 253] Compiling Data.Monoid.Disj
+[ 86 of 253] Compiling Control.Monad.Cont.Class
+[ 84 of 253] Compiling Data.Monoid.Conj
+[ 87 of 253] Compiling Effect.Ref
+[ 88 of 253] Compiling Effect.Uncurried
+[ 89 of 253] Compiling Effect.Unsafe
+[ 90 of 253] Compiling Effect.Console
+[ 91 of 253] Compiling Effect.Class
+[ 93 of 253] Compiling Effect.Class.Console
+[ 92 of 253] Compiling Test.Assert
+[ 94 of 253] Compiling Data.Newtype
+[ 95 of 253] Compiling Data.Functor.App
+[ 96 of 253] Compiling Data.Ord.Min
+[ 97 of 253] Compiling Data.Monoid.Alternate
+[ 98 of 253] Compiling Data.String.Pattern
+[ 99 of 253] Compiling Data.Ord.Down
+[101 of 253] Compiling Data.Ord.Max
+[100 of 253] Compiling Data.Profunctor
+[102 of 253] Compiling Data.String.Common
+[103 of 253] Compiling Data.Profunctor.Closed
+[104 of 253] Compiling Data.Functor.Invariant
+[105 of 253] Compiling Data.Functor.Compose
+[106 of 253] Compiling Data.Const
+[107 of 253] Compiling Data.Identity
+[109 of 253] Compiling Data.Profunctor.Join
+[108 of 253] Compiling Data.Tuple
+[110 of 253] Compiling Data.Profunctor.Split
+[111 of 253] Compiling Data.Maybe
+[112 of 253] Compiling Data.Functor.Contravariant
+[113 of 253] Compiling Data.Comparison
+[114 of 253] Compiling Data.Predicate
+[115 of 253] Compiling Data.Op
+[116 of 253] Compiling Data.Equivalence
+[117 of 253] Compiling Data.Maybe.First
+[118 of 253] Compiling Data.Number
+[120 of 253] Compiling Data.Maybe.Last
+[119 of 253] Compiling Data.String.CodeUnits
+[121 of 253] Compiling Data.Either
+[123 of 253] Compiling Data.Number.Approximate
+[122 of 253] Compiling Data.Int
+[124 of 253] Compiling Data.Divide
+[125 of 253] Compiling Data.Distributive
+[126 of 253] Compiling Data.Profunctor.Costrong
+[127 of 253] Compiling Control.Monad.Writer.Class
+[129 of 253] Compiling Control.Monad.State.Class
+[128 of 253] Compiling Data.Tuple.Nested
+[130 of 253] Compiling Data.Profunctor.Strong
+[131 of 253] Compiling Data.Divisible
+[133 of 253] Compiling Effect.Random
+[132 of 253] Compiling Performance.Minibench
+[134 of 253] Compiling Data.Decide
+[135 of 253] Compiling Data.Bifunctor
+[136 of 253] Compiling Data.Profunctor.Cochoice
+[137 of 253] Compiling Data.Either.Inject
+[138 of 253] Compiling Data.Either.Nested
+[139 of 253] Compiling Effect.Exception
+[140 of 253] Compiling Data.Profunctor.Choice
+[141 of 253] Compiling Random.LCG
+[142 of 253] Compiling Control.Monad.Error.Class
+[143 of 253] Compiling Effect.Exception.Unsafe
+[144 of 253] Compiling Data.Functor.Coproduct
+[145 of 253] Compiling Data.Functor.Costar
+[147 of 253] Compiling Data.Functor.Product
+[146 of 253] Compiling Control.Biapply
+[148 of 253] Compiling Control.Monad.Rec.Class
+[149 of 253] Compiling Data.Profunctor.Star
+[150 of 253] Compiling Data.Decidable
+[151 of 253] Compiling Control.Biapplicative
+[152 of 253] Compiling Data.Functor.Joker
+[153 of 253] Compiling Data.Functor.Flip
+[154 of 253] Compiling Data.Functor.Product2
+[155 of 253] Compiling Data.Functor.Clown
+[156 of 253] Compiling Data.Bifunctor.Join
+[158 of 253] Compiling Data.FunctorWithIndex
+[157 of 253] Compiling Data.Foldable
+[160 of 253] Compiling Data.Functor.Product.Nested
+[159 of 253] Compiling Data.Functor.Coproduct.Nested
+[161 of 253] Compiling Data.Functor.Coproduct.Inject
+[162 of 253] Compiling Control.Monad.ST.Internal
+[164 of 253] Compiling Control.Monad.ST
+[163 of 253] Compiling Control.Monad.ST.Ref
+[165 of 253] Compiling Control.Monad.ST.Uncurried
+[166 of 253] Compiling Control.Monad.ST.Global
+[167 of 253] Compiling Foreign.Object.ST
+[168 of 253] Compiling Control.Monad.ST.Class
+[169 of 253] Compiling Control.Monad.RWS.Trans
+[170 of 253] Compiling Control.Monad.Except.Trans
+[171 of 253] Compiling Control.Monad.Cont.Trans
+[172 of 253] Compiling Control.Monad.Writer.Trans
+[173 of 253] Compiling Control.Monad.Maybe.Trans
+[174 of 253] Compiling Control.Monad.Reader.Trans
+[175 of 253] Compiling Control.Monad.State.Trans
+[176 of 253] Compiling Data.Array.ST
+[177 of 253] Compiling Data.Array.ST.Partial
+[178 of 253] Compiling Data.Array.ST.Iterator
+[179 of 253] Compiling Control.Monad.Cont
+[180 of 253] Compiling Control.Monad.Reader
+[181 of 253] Compiling Control.Monad.State
+[182 of 253] Compiling Control.Monad.Writer
+[183 of 253] Compiling Control.Monad.Except
+[184 of 253] Compiling Control.Monad.RWS
+[185 of 253] Compiling Data.Bifoldable
+[186 of 253] Compiling Data.Traversable
+[187 of 253] Compiling Data.Semigroup.Foldable
+[188 of 253] Compiling Data.FoldableWithIndex
+[189 of 253] Compiling Data.Bitraversable
+[191 of 253] Compiling Data.Semigroup.Traversable
+[190 of 253] Compiling Control.Monad.Identity.Trans
+[192 of 253] Compiling Data.Unfoldable1
+[193 of 253] Compiling Control.Comonad.Trans.Class
+[194 of 253] Compiling Data.TraversableWithIndex
+[195 of 253] Compiling Control.Comonad.Store.Trans
+[196 of 253] Compiling Control.Comonad.Traced.Trans
+[197 of 253] Compiling Data.Unfoldable
+[199 of 253] Compiling Control.Monad.Gen
+[198 of 253] Compiling Data.Enum
+[201 of 253] Compiling Data.Array.NonEmpty.Internal
+[200 of 253] Compiling Data.NonEmpty
+[203 of 253] Compiling Data.Lazy
+[202 of 253] Compiling Control.Comonad.Env.Trans
+[204 of 253] Compiling Data.Array
+[205 of 253] Compiling Data.Char
+[206 of 253] Compiling Data.Enum.Generic
+[207 of 253] Compiling Control.Comonad.Store.Class
+[208 of 253] Compiling Control.Monad.List.Trans
+[209 of 253] Compiling Data.List.Lazy.Types
+[210 of 253] Compiling Data.Enum.Gen
+[211 of 253] Compiling Control.Monad.Gen.Common
+[212 of 253] Compiling Data.Char.Gen
+[213 of 253] Compiling Data.List.Types
+[214 of 253] Compiling Control.Comonad.Store
+[215 of 253] Compiling Control.Comonad.Env.Class
+[216 of 253] Compiling Data.String.Gen
+[217 of 253] Compiling Control.Comonad.Env
+[218 of 253] Compiling Control.Comonad.Traced.Class
+[219 of 253] Compiling Control.Comonad.Traced
+[220 of 253] Compiling Data.String.CodePoints
+[221 of 253] Compiling Data.Array.Partial
+[223 of 253] Compiling Foreign.Object
+[222 of 253] Compiling Data.Array.NonEmpty
+[224 of 253] Compiling Data.List.Internal
+[225 of 253] Compiling Data.String
+[226 of 253] Compiling Data.List
+[227 of 253] Compiling Data.List.Lazy
+[228 of 253] Compiling Data.String.CaseInsensitive
+[230 of 253] Compiling Data.String.Regex.Flags
+[229 of 253] Compiling Data.String.NonEmpty.Internal
+[231 of 253] Compiling Foreign.Object.ST.Unsafe
+[232 of 253] Compiling Foreign.Object.Unsafe
+[233 of 253] Compiling Data.String.NonEmpty.CodePoints
+[234 of 253] Compiling Data.String.Regex
+[235 of 253] Compiling Data.String.NonEmpty.CodeUnits
+[236 of 253] Compiling Data.String.Regex.Unsafe
+[237 of 253] Compiling Data.String.NonEmpty
+[238 of 253] Compiling Data.String.NonEmpty.CaseInsensitive
+[240 of 253] Compiling Data.List.ZipList
+[239 of 253] Compiling Data.List.Lazy.NonEmpty
+[242 of 253] Compiling Foreign.Object.Gen
+[243 of 253] Compiling Data.List.Partial
+[241 of 253] Compiling Test.QuickCheck.Gen
+[244 of 253] Compiling Data.List.NonEmpty
+[246 of 253] Compiling Test.QuickCheck.Arbitrary
+[245 of 253] Compiling Foreign
+[249 of 253] Compiling Foreign.Keys
+[247 of 253] Compiling Data.Argonaut.Core
+[248 of 253] Compiling Foreign.Index
+[251 of 253] Compiling Data.Argonaut.Parser
+[250 of 253] Compiling Data.Argonaut.Gen
+[252 of 253] Compiling Test.QuickCheck
+[253 of 253] Compiling Test.Main
+[WARNING 1/2 UnusedImport] src/Data/Argonaut/Core.purs:47:1
+
+  47  import Data.Tuple (Tuple)
+      ^^^^^^^^^^^^^^^^^^^^^^^^^
+
+  The import of Data.Tuple is redundant
+
+[WARNING 2/2 UnusedImport] src/Data/Argonaut/Core.purs:51:1
+
+  51  import Foreign (tagOf, unsafeToForeign, unsafeFromForeign)
+      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+  The import of Foreign is redundant
+
+           Src   Lib   All
+Warnings     2     0     2
+Errors       0     0     0
+
+✓ Build succeeded.
+
+=== Generating Go code with gopurs ===
+APP ARRAYMAP in Data_Functor: arg0=__eta_norm_1_1
+arg1=gopurs_runtime.Array(func() []gopurs_runtime.Value {
+					arr := *(*[]gopurs_runtime.Value)(Get_Test_Main_cases().UnsafePtr)
+					unboxed := make([]gopurs_runtime.Value, len(arr))
+					for i, v := range arr { unboxed[i] = v }
+					return unboxed
+				}())
+APP ARRAYMAP in Data_Functor: arg0=__eta_norm_1_1
+arg1=gopurs_runtime.Array(func() []gopurs_runtime.Value {
+					arr := *(*[]gopurs_runtime.Value)(Get_Test_Main_cases().UnsafePtr)
+					unboxed := make([]gopurs_runtime.Value, len(arr))
+					for i, v := range arr { unboxed[i] = v }
+					return unboxed
+				}())
+APP ARRAYMAP in Data_Functor: arg0=__eta_norm_1_1
+arg1=gopurs_runtime.Array(func() []gopurs_runtime.Value {
+					arr := *(*[]gopurs_runtime.Value)(Get_Test_Main_cases().UnsafePtr)
+					unboxed := make([]gopurs_runtime.Value, len(arr))
+					for i, v := range arr { unboxed[i] = v }
+					return unboxed
+				}())
+APP ARRAYMAP in Data_Functor: arg0=__eta_norm_1_1
+arg1=gopurs_runtime.Array(func() []gopurs_runtime.Value {
+					arr := *(*[]gopurs_runtime.Value)(Get_Test_Main_cases().UnsafePtr)
+					unboxed := make([]gopurs_runtime.Value, len(arr))
+					for i, v := range arr { unboxed[i] = v }
+					return unboxed
+				}())
+APP ARRAYMAP in Data_Functor: arg0=__eta_norm_1_1
+arg1=gopurs_runtime.Array(func() []gopurs_runtime.Value {
+					arr := *(*[]gopurs_runtime.Value)(Get_Test_Main_cases().UnsafePtr)
+					unboxed := make([]gopurs_runtime.Value, len(arr))
+					for i, v := range arr { unboxed[i] = v }
+					return unboxed
+				}())
+APP ARRAYMAP in Data_Functor: arg0=__eta_norm_1_1
+arg1=gopurs_runtime.Array(func() []gopurs_runtime.Value {
+					arr := *(*[]gopurs_runtime.Value)(Get_Test_Main_cases().UnsafePtr)
+					unboxed := make([]gopurs_runtime.Value, len(arr))
+					for i, v := range arr { unboxed[i] = v }
+					return unboxed
+				}())
+APP ARRAYMAP in Data_Functor: arg0=__eta_norm_1_1
+arg1=gopurs_runtime.Array(func() []gopurs_runtime.Value {
+					arr := *(*[]gopurs_runtime.Value)(Get_Test_Main_cases().UnsafePtr)
+					unboxed := make([]gopurs_runtime.Value, len(arr))
+					for i, v := range arr { unboxed[i] = v }
+					return unboxed
+				}())
+APP ARRAYMAP in Data_Functor: arg0=gopurs_runtime.Apply(Get_Data_String_CodeUnits_charAt(), gopurs_runtime.Int(Get_Test_QuickCheck_Arbitrary_zero().IntVal))
+arg1=__eta_norm_0_1
+APP ARRAYMAP in Data_Functor: arg0=__eta_norm_1_0
+arg1=__eta_norm_0_1
+APP ARRAYMAP in Data_Functor: arg0=gopurs_runtime.Func(func(v_2 gopurs_runtime.Value) gopurs_runtime.Value {
+return gopurs_runtime.Str(x_1)
+})
+arg1=f_0
+APP ARRAYMAP in Data_Array: arg0=Get_Data_Tuple_snd()
+arg1=func() gopurs_runtime.Value {
+					arr := func() []*Constructor_Data_Tuple_Tuple[int64, gopurs_runtime.Value] {
+					arr := *(*[]gopurs_runtime.Value)(gopurs_runtime.Apply(Call_Data_Array_sortWith(Rebox_Data_Array_3308271157_4177771502(gopurs_runtime.CoerceToStruct[Constructor_Data_Ord_Ord[int64]](Get_Data_Ord_ordInt())), Get_Data_Tuple_fst()), func() gopurs_runtime.Value {
+					arr := func() []*Constructor_Data_Tuple_Tuple[int64, gopurs_runtime.Value] {
+					arr := *(*[]gopurs_runtime.Value)(gopurs_runtime.Apply(Get_Control_Monad_ST_Internal_run(), gopurs_runtime.Func(func(_ gopurs_runtime.Value) gopurs_runtime.Value {
+// TAST (Let): __local_var_4_2 shape=App(Var) bindingType=(ADT ["Control","Monad","ST","Internal","ST"] [(TypeVar r), (ADT ["Data","Array","ST","STArray"] [(TypeVar r), (ADT ["Data","Tuple","Tuple"] [Int, (TypeVar a)])])])
+__local_var_4_2 := gopurs_runtime.Apply(Get_Data_Array_ST_unsafeThaw(), func() gopurs_runtime.Value {
+					arr := []*Constructor_Data_Tuple_Tuple[int64, gopurs_runtime.Value]{(v_3_1).V0}
+					boxed := make([]gopurs_runtime.Value, len(arr))
+					for i, v := range arr { boxed[i] = gopurs_runtime.Value{Type: 9, IntVal: 2339352186, UnsafePtr: unsafe.Pointer(Rebox_Data_Array_1728839155_138441832(v))} }
+					return gopurs_runtime.Array(boxed)
+				}())
+_ = __local_var_4_2
+result_5_3 := gopurs_runtime.Apply(__local_var_4_2, gopurs_runtime.Value{})
+_ = result_5_3
+return gopurs_runtime.Apply(gopurs_runtime.Apply3(Get_Control_Bind_bind(), Get_Control_Monad_ST_Internal_bindST(), gopurs_runtime.Apply2(Get_Control_Monad_ST_Internal_foreach(), func() gopurs_runtime.Value {
+					arr := indexedAndSorted_2_0
+					boxed := make([]gopurs_runtime.Value, len(arr))
+					for i, v := range arr { boxed[i] = gopurs_runtime.Value{Type: 9, IntVal: 2339352186, UnsafePtr: unsafe.Pointer(Rebox_Data_Array_1728839155_138441832(v))} }
+					return gopurs_runtime.Array(boxed)
+				}(), gopurs_runtime.Func(func(v1_6 gopurs_runtime.Value) gopurs_runtime.Value {
+return gopurs_runtime.Func(func(_ gopurs_runtime.Value) gopurs_runtime.Value {
+// TAST (Let): __local_var_7_4 shape=App(Var) bindingType=Any
+__local_var_7_4 := gopurs_runtime.Apply3(Get_Control_Semigroupoid_compose(), gopurs_runtime.Value{Type: 9, IntVal: 350442445, UnsafePtr: unsafe.Pointer(gopurs_runtime.CoerceToStruct[Constructor_Control_Semigroupoid_Semigroupoid[gopurs_runtime.Value]](Get_Control_Semigroupoid_semigroupoidFn()))}, Get_Data_Tuple_snd(), gopurs_runtime.Apply3(Get_Control_Semigroupoid_compose(), gopurs_runtime.Value{Type: 9, IntVal: 350442445, UnsafePtr: unsafe.Pointer(gopurs_runtime.CoerceToStruct[Constructor_Control_Semigroupoid_Semigroupoid[gopurs_runtime.Value]](Get_Control_Semigroupoid_semigroupoidFn()))}, gopurs_runtime.Apply(Get_Data_Maybe_fromJust(), gopurs_runtime.Value{}), Get_Data_Array_last()))
+_ = __local_var_7_4
+// TAST (Let): __local_var_8_5 shape=App(Var) bindingType=(ADT ["Control","Monad","ST","Internal","ST"] [(TypeVar r), (Array (ADT ["Data","Tuple","Tuple"] [Int, (TypeVar a)]))])
+__local_var_8_5 := gopurs_runtime.Apply(Get_Data_Array_ST_unsafeFreeze(), result_5_3)
+_ = __local_var_8_5
+__local_var_9_7 := gopurs_runtime.Apply(__local_var_8_5, gopurs_runtime.Value{})
+_ = __local_var_9_7
+lst_9_6 := gopurs_runtime.Apply(__local_var_7_4, __local_var_9_7)
+_ = lst_9_6
+return Get_Data_Unit_unit()
+})
+})), gopurs_runtime.Func(func(_dollar___unused_6 gopurs_runtime.Value) gopurs_runtime.Value {
+return gopurs_runtime.Apply(Get_Data_Array_ST_unsafeFreeze(), result_5_3)
+})), gopurs_runtime.Value{})
+})).UnsafePtr)
+					unboxed := make([]*Constructor_Data_Tuple_Tuple[int64, gopurs_runtime.Value], len(arr))
+					for i, v := range arr { unboxed[i] = gopurs_runtime.CoerceToStruct[Constructor_Data_Tuple_Tuple[int64, gopurs_runtime.Value]](v) }
+					return unboxed
+				}()
+					boxed := make([]gopurs_runtime.Value, len(arr))
+					for i, v := range arr { boxed[i] = gopurs_runtime.Value{Type: 9, IntVal: 2339352186, UnsafePtr: unsafe.Pointer(Rebox_Data_Array_1728839155_138441832(v))} }
+					return gopurs_runtime.Array(boxed)
+				}()).UnsafePtr)
+					unboxed := make([]*Constructor_Data_Tuple_Tuple[int64, gopurs_runtime.Value], len(arr))
+					for i, v := range arr { unboxed[i] = gopurs_runtime.CoerceToStruct[Constructor_Data_Tuple_Tuple[int64, gopurs_runtime.Value]](v) }
+					return unboxed
+				}()
+					boxed := make([]gopurs_runtime.Value, len(arr))
+					for i, v := range arr { boxed[i] = gopurs_runtime.Value{Type: 9, IntVal: 2339352186, UnsafePtr: unsafe.Pointer(Rebox_Data_Array_1728839155_138441832(v))} }
+					return gopurs_runtime.Array(boxed)
+				}()
+APP ARRAYMAP in Data_String_Regex_Flags: arg0=gopurs_runtime.Func(func(v_1 gopurs_runtime.Value) gopurs_runtime.Value {
+return gopurs_runtime.Str("global")
+})
+arg1=__t1
+APP ARRAYMAP in Data_String_Regex_Flags: arg0=gopurs_runtime.Func(func(v_1 gopurs_runtime.Value) gopurs_runtime.Value {
+return gopurs_runtime.Str("ignoreCase")
+})
+arg1=__t2
+APP ARRAYMAP in Data_String_Regex_Flags: arg0=gopurs_runtime.Func(func(v_1 gopurs_runtime.Value) gopurs_runtime.Value {
+return gopurs_runtime.Str("multiline")
+})
+arg1=__t3
+APP ARRAYMAP in Data_String_Regex_Flags: arg0=gopurs_runtime.Func(func(v_1 gopurs_runtime.Value) gopurs_runtime.Value {
+return gopurs_runtime.Str("dotAll")
+})
+arg1=__t4
+APP ARRAYMAP in Data_String_Regex_Flags: arg0=gopurs_runtime.Func(func(v_1 gopurs_runtime.Value) gopurs_runtime.Value {
+return gopurs_runtime.Str("sticky")
+})
+arg1=__t5
+APP ARRAYMAP in Data_String_Regex_Flags: arg0=gopurs_runtime.Func(func(v_1 gopurs_runtime.Value) gopurs_runtime.Value {
+return gopurs_runtime.Str("unicode")
+})
+arg1=__t6
+APP ARRAYMAP in Test_QuickCheck_Gen: arg0=Get_Data_Tuple_snd()
+arg1=func() gopurs_runtime.Value {
+					arr := func() []*Constructor_Data_Tuple_Tuple[int64, gopurs_runtime.Value] {
+					arr := *(*[]gopurs_runtime.Value)(gopurs_runtime.Apply2(Get_Data_Array_sortBy(), gopurs_runtime.Func2(func(x_2 gopurs_runtime.Value, y_3 gopurs_runtime.Value) gopurs_runtime.Value {
+return gopurs_runtime.Value{Type: 9, IntVal: int64(uint32(gopurs_runtime.Apply2(gopurs_runtime.Box(gopurs_runtime.CoerceToStruct[Constructor_Data_Ord_Ord[int64]](Get_Data_Ord_ordInt()).V1), gopurs_runtime.Int(gopurs_runtime.Apply(Get_Data_Tuple_fst(), gopurs_runtime.Value{Type: 9, IntVal: 2339352186, UnsafePtr: unsafe.Pointer(Rebox_Test_QuickCheck_Gen_1728839155_138441832(Rebox_Test_QuickCheck_Gen_138441832_1728839155(gopurs_runtime.CoerceToStruct[Constructor_Data_Tuple_Tuple[gopurs_runtime.Value, gopurs_runtime.Value]](x_2))))}).IntVal), gopurs_runtime.Int(gopurs_runtime.Apply(Get_Data_Tuple_fst(), gopurs_runtime.Value{Type: 9, IntVal: 2339352186, UnsafePtr: unsafe.Pointer(Rebox_Test_QuickCheck_Gen_1728839155_138441832(Rebox_Test_QuickCheck_Gen_138441832_1728839155(gopurs_runtime.CoerceToStruct[Constructor_Data_Tuple_Tuple[gopurs_runtime.Value, gopurs_runtime.Value]](y_3))))}).IntVal)).IntVal)), UnsafePtr: nil}
+}), func() gopurs_runtime.Value {
+					arr := func() []*Constructor_Data_Tuple_Tuple[int64, gopurs_runtime.Value] {
+					arr := *(*[]gopurs_runtime.Value)(gopurs_runtime.UncurriedApp3(Get_Data_Array_zipWithImpl(), Get_Data_Tuple_Tuple(), ns_1, gopurs_runtime.Array(xs_0)).UnsafePtr)
+					unboxed := make([]*Constructor_Data_Tuple_Tuple[int64, gopurs_runtime.Value], len(arr))
+					for i, v := range arr { unboxed[i] = gopurs_runtime.CoerceToStruct[Constructor_Data_Tuple_Tuple[int64, gopurs_runtime.Value]](v) }
+					return unboxed
+				}()
+					boxed := make([]gopurs_runtime.Value, len(arr))
+					for i, v := range arr { boxed[i] = gopurs_runtime.Value{Type: 9, IntVal: 2339352186, UnsafePtr: unsafe.Pointer(Rebox_Test_QuickCheck_Gen_1728839155_138441832(v))} }
+					return gopurs_runtime.Array(boxed)
+				}()).UnsafePtr)
+					unboxed := make([]*Constructor_Data_Tuple_Tuple[int64, gopurs_runtime.Value], len(arr))
+					for i, v := range arr { unboxed[i] = gopurs_runtime.CoerceToStruct[Constructor_Data_Tuple_Tuple[int64, gopurs_runtime.Value]](v) }
+					return unboxed
+				}()
+					boxed := make([]gopurs_runtime.Value, len(arr))
+					for i, v := range arr { boxed[i] = gopurs_runtime.Value{Type: 9, IntVal: 2339352186, UnsafePtr: unsafe.Pointer(Rebox_Test_QuickCheck_Gen_1728839155_138441832(v))} }
+					return gopurs_runtime.Array(boxed)
+				}()
+APP ARRAYMAP in Test_QuickCheck_Arbitrary: arg0=gopurs_runtime.Apply(Get_Data_String_CodeUnits_charAt(), gopurs_runtime.Int(gopurs_runtime.Apply(Get_Data_Semiring_zero(), gopurs_runtime.Value{Type: 9, IntVal: 134961754, UnsafePtr: unsafe.Pointer(Rebox_Test_QuickCheck_Arbitrary_348932501_2826095630(gopurs_runtime.CoerceToStruct[Constructor_Data_Semiring_Semiring[int64]](Get_Data_Semiring_semiringInt())))}).IntVal))
+arg1=gopurs_runtime.Apply2(Get_Data_String_Common_split(), gopurs_runtime.Str(gopurs_runtime.Apply2(Get_Safe_Coerce_coerce(), gopurs_runtime.Value{}, gopurs_runtime.Str("")).StrVal()), gopurs_runtime.Str(s_0.StrVal()))
+APP ARRAYMAP in Test_QuickCheck_Arbitrary: arg0=gopurs_runtime.Apply(gopurs_runtime.RecordGet(gopurs_runtime.Apply(Get_Control_Monad_State_Trans_functorStateT(), gopurs_runtime.Value{Type: 9, IntVal: 929368378, UnsafePtr: unsafe.Pointer(gopurs_runtime.CoerceToStruct[Constructor_Data_Functor_Functor[gopurs_runtime.Value]](Get_Data_Identity_functorIdentity()))}), "map"), Get_Data_Generic_Rep_Inr())
+arg1=gopurs_runtime.Array(func() []gopurs_runtime.Value {
+					arr := *(*[]gopurs_runtime.Value)(Call_Test_QuickCheck_Arbitrary_arbitraryGenericSum(dictArbitraryGenericSum_2).UnsafePtr)
+					unboxed := make([]gopurs_runtime.Value, len(arr))
+					for i, v := range arr { unboxed[i] = v }
+					return unboxed
+				}())
+APP ARRAYMAP in Test_QuickCheck_Arbitrary: arg0=gopurs_runtime.Apply(gopurs_runtime.RecordGet(gopurs_runtime.Apply(Get_Control_Monad_State_Trans_functorStateT(), gopurs_runtime.Value{Type: 9, IntVal: 929368378, UnsafePtr: unsafe.Pointer(gopurs_runtime.CoerceToStruct[Constructor_Data_Functor_Functor[gopurs_runtime.Value]](Get_Data_Identity_functorIdentity()))}), "map"), Get_Data_Generic_Rep_Inr())
+arg1=gopurs_runtime.Array(func() []gopurs_runtime.Value {
+					arr := *(*[]gopurs_runtime.Value)(Call_Test_QuickCheck_Arbitrary_arbitraryGenericSum(dictArbitraryGenericSum_2).UnsafePtr)
+					unboxed := make([]gopurs_runtime.Value, len(arr))
+					for i, v := range arr { unboxed[i] = v }
+					return unboxed
+				}())
+APP ARRAYMAP in Test_QuickCheck_Arbitrary: arg0=f_4
+arg1=gopurs_runtime.Array(func() []gopurs_runtime.Value {
+					arr := *(*[]gopurs_runtime.Value)(xs_6.UnsafePtr)
+					unboxed := make([]gopurs_runtime.Value, len(arr))
+					for i, v := range arr { unboxed[i] = v }
+					return unboxed
+				}())
+APP ARRAYMAP in Test_Main: arg0=gopurs_runtime.Array(func() []gopurs_runtime.Value {
+					arr := *(*[]gopurs_runtime.Value)(Get_Test_Main_cases().UnsafePtr)
+					unboxed := make([]gopurs_runtime.Value, len(arr))
+					for i, v := range arr { unboxed[i] = v }
+					return unboxed
+				}())
+arg1=gopurs_runtime.Array(func() []gopurs_runtime.Value {
+					arr := *(*[]gopurs_runtime.Value)(Get_Test_Main_cases().UnsafePtr)
+					unboxed := make([]gopurs_runtime.Value, len(arr))
+					for i, v := range arr { unboxed[i] = v }
+					return unboxed
+				}())
+APP ARRAYMAP in Test_Main: arg0=gopurs_runtime.Array(func() []gopurs_runtime.Value {
+					arr := *(*[]gopurs_runtime.Value)(Get_Test_Main_cases().UnsafePtr)
+					unboxed := make([]gopurs_runtime.Value, len(arr))
+					for i, v := range arr { unboxed[i] = v }
+					return unboxed
+				}())
+arg1=gopurs_runtime.Array(func() []gopurs_runtime.Value {
+					arr := *(*[]gopurs_runtime.Value)(Get_Test_Main_cases().UnsafePtr)
+					unboxed := make([]gopurs_runtime.Value, len(arr))
+					for i, v := range arr { unboxed[i] = v }
+					return unboxed
+				}())
+APP ARRAYMAP in Test_Main: arg0=gopurs_runtime.Array(func() []gopurs_runtime.Value {
+					arr := *(*[]gopurs_runtime.Value)(Get_Test_Main_cases().UnsafePtr)
+					unboxed := make([]gopurs_runtime.Value, len(arr))
+					for i, v := range arr { unboxed[i] = v }
+					return unboxed
+				}())
+arg1=gopurs_runtime.Array(func() []gopurs_runtime.Value {
+					arr := *(*[]gopurs_runtime.Value)(Get_Test_Main_cases().UnsafePtr)
+					unboxed := make([]gopurs_runtime.Value, len(arr))
+					for i, v := range arr { unboxed[i] = v }
+					return unboxed
+				}())
+APP ARRAYMAP in Test_Main: arg0=gopurs_runtime.Array(func() []gopurs_runtime.Value {
+					arr := *(*[]gopurs_runtime.Value)(Get_Test_Main_cases().UnsafePtr)
+					unboxed := make([]gopurs_runtime.Value, len(arr))
+					for i, v := range arr { unboxed[i] = v }
+					return unboxed
+				}())
+arg1=gopurs_runtime.Array(func() []gopurs_runtime.Value {
+					arr := *(*[]gopurs_runtime.Value)(Get_Test_Main_cases().UnsafePtr)
+					unboxed := make([]gopurs_runtime.Value, len(arr))
+					for i, v := range arr { unboxed[i] = v }
+					return unboxed
+				}())
+APP ARRAYMAP in Test_Main: arg0=gopurs_runtime.Array(func() []gopurs_runtime.Value {
+					arr := *(*[]gopurs_runtime.Value)(Get_Test_Main_cases().UnsafePtr)
+					unboxed := make([]gopurs_runtime.Value, len(arr))
+					for i, v := range arr { unboxed[i] = v }
+					return unboxed
+				}())
+arg1=gopurs_runtime.Array(func() []gopurs_runtime.Value {
+					arr := *(*[]gopurs_runtime.Value)(Get_Test_Main_cases().UnsafePtr)
+					unboxed := make([]gopurs_runtime.Value, len(arr))
+					for i, v := range arr { unboxed[i] = v }
+					return unboxed
+				}())
+APP ARRAYMAP in Test_Main: arg0=gopurs_runtime.Array(func() []gopurs_runtime.Value {
+					arr := *(*[]gopurs_runtime.Value)(Get_Test_Main_cases().UnsafePtr)
+					unboxed := make([]gopurs_runtime.Value, len(arr))
+					for i, v := range arr { unboxed[i] = v }
+					return unboxed
+				}())
+arg1=gopurs_runtime.Array(func() []gopurs_runtime.Value {
+					arr := *(*[]gopurs_runtime.Value)(Get_Test_Main_cases().UnsafePtr)
+					unboxed := make([]gopurs_runtime.Value, len(arr))
+					for i, v := range arr { unboxed[i] = v }
+					return unboxed
+				}())
+APP ARRAYMAP in Test_Main: arg0=gopurs_runtime.Apply(Get_Data_Argonaut_Core_toJsonType__3746512273(), Get_Data_Argonaut_Core_caseJsonNull())
+arg1=gopurs_runtime.Array(func() []gopurs_runtime.Value {
+					arr := *(*[]gopurs_runtime.Value)(Get_Test_Main_cases().UnsafePtr)
+					unboxed := make([]gopurs_runtime.Value, len(arr))
+					for i, v := range arr { unboxed[i] = v }
+					return unboxed
+				}())
+APP ARRAYMAP in Test_Main: arg0=gopurs_runtime.Apply(Get_Data_Argonaut_Core_toJsonType__16690892(), Get_Data_Argonaut_Core_caseJsonBoolean())
+arg1=gopurs_runtime.Array(func() []gopurs_runtime.Value {
+					arr := *(*[]gopurs_runtime.Value)(Get_Test_Main_cases().UnsafePtr)
+					unboxed := make([]gopurs_runtime.Value, len(arr))
+					for i, v := range arr { unboxed[i] = v }
+					return unboxed
+				}())
+APP ARRAYMAP in Test_Main: arg0=gopurs_runtime.Apply(Get_Data_Argonaut_Core_toJsonType__202904396(), Get_Data_Argonaut_Core_caseJsonNumber())
+arg1=gopurs_runtime.Array(func() []gopurs_runtime.Value {
+					arr := *(*[]gopurs_runtime.Value)(Get_Test_Main_cases().UnsafePtr)
+					unboxed := make([]gopurs_runtime.Value, len(arr))
+					for i, v := range arr { unboxed[i] = v }
+					return unboxed
+				}())
+APP ARRAYMAP in Test_Main: arg0=gopurs_runtime.Apply(Get_Data_Argonaut_Core_toJsonType__2145002380(), Get_Data_Argonaut_Core_caseJsonString())
+arg1=gopurs_runtime.Array(func() []gopurs_runtime.Value {
+					arr := *(*[]gopurs_runtime.Value)(Get_Test_Main_cases().UnsafePtr)
+					unboxed := make([]gopurs_runtime.Value, len(arr))
+					for i, v := range arr { unboxed[i] = v }
+					return unboxed
+				}())
+APP ARRAYMAP in Test_Main: arg0=gopurs_runtime.Apply(Get_Data_Argonaut_Core_toJsonType__85721988(), Get_Data_Argonaut_Core_caseJsonArray())
+arg1=gopurs_runtime.Array(func() []gopurs_runtime.Value {
+					arr := *(*[]gopurs_runtime.Value)(Get_Test_Main_cases().UnsafePtr)
+					unboxed := make([]gopurs_runtime.Value, len(arr))
+					for i, v := range arr { unboxed[i] = v }
+					return unboxed
+				}())
+APP ARRAYMAP in Test_Main: arg0=gopurs_runtime.Apply(Get_Data_Argonaut_Core_toJsonType__917531137(), Get_Data_Argonaut_Core_caseJsonObject())
+arg1=gopurs_runtime.Array(func() []gopurs_runtime.Value {
+					arr := *(*[]gopurs_runtime.Value)(Get_Test_Main_cases().UnsafePtr)
+					unboxed := make([]gopurs_runtime.Value, len(arr))
+					for i, v := range arr { unboxed[i] = v }
+					return unboxed
+				}())
+=== Compiling and running Go test binary ===
+isXxx tests
+1/1 test(s) passed.
+1/1 test(s) passed.
+1/1 test(s) passed.
+1/1 test(s) passed.
+1/1 test(s) passed.
+1/1 test(s) passed.
+caseJson tests
+1/1 test(s) passed.
+1/1 test(s) passed.
+1/1 test(s) passed.
+1/1 test(s) passed.
+1/1 test(s) passed.
+1/1 test(s) passed.
+caseJsonXxx tests
+panic: Attempted to apply a non-function
+
+goroutine 1 [running]:
+gopurs/output/gopurs_runtime.Apply({0xc, 0x0, 0x38a247039758}, {0x38a247065c20?, 0x1?, 0x38a247032170?})
+	/Users/0x1/Documents/htdocs/gopurs/gopurs-argonaut-core/output/gopurs_runtime/runtime.go:516 +0x71c
+gopurs/output/purescript.Get_Test_Main_foldXXX.func1.1.1.1(...)
+	/Users/0x1/Documents/htdocs/gopurs/gopurs-argonaut-core/output/purescript/Test_Main.go:442
+gopurs/output/purescript.Get_Test_Main_foldXXX.func1.1.1(...)
+	/Users/0x1/Documents/htdocs/gopurs/gopurs-argonaut-core/output/purescript/Test_Main.go:450
+gopurs/output/purescript.Get_Test_Main_foldXXX.func1.1({0x38a246f10e98?, 0x10274afc8?, 0x38a246f10f18?})
+	/Users/0x1/Documents/htdocs/gopurs/gopurs-argonaut-core/output/purescript/Test_Main.go:454 +0x234
+gopurs/output/gopurs_runtime.Apply({0x1, 0x0, 0x102ad21d8}, {0x0?, 0x38a246f10f68?, 0x38a2470330f0?})
+	/Users/0x1/Documents/htdocs/gopurs/gopurs-argonaut-core/output/gopurs_runtime/runtime.go:484 +0x6c
+gopurs/output/purescript.init.func272.1({0x0?, 0x0?})
+	/Users/0x1/Documents/htdocs/gopurs/gopurs-argonaut-core/output/purescript/Effect_ffi.go:55 +0x64
+gopurs/output/purescript.Effect_BindE(0x38a246f10fb8?, 0x38a246f10fc8, {0x38a246f11048?, 0x102bd94d8?})
+	/Users/0x1/Documents/htdocs/gopurs/gopurs-argonaut-core/output/purescript/Effect_ffi.go:10 +0x30
+gopurs/output/purescript.init.func272({0x102ad3010?, 0x102bd94d8?, 0x102ad21d8?}, {0x1027da118?, 0x38a246f11088?, 0x102ad21e0?}, {0x28?, 0x102ab6900?, 0x38a2470330e0?})
+	/Users/0x1/Documents/htdocs/gopurs/gopurs-argonaut-core/output/purescript/Effect_ffi.go:64 +0x68
+gopurs/output/gopurs_runtime.Apply.func2({0x38a2470330e0?, 0x102afa240?, 0x102ad21e0?}, {0x10287e6d8?, 0x10?, 0x38a2470330e0?})
+	/Users/0x1/Documents/htdocs/gopurs/gopurs-argonaut-core/output/gopurs_runtime/runtime.go:490 +0x54
+gopurs/output/gopurs_runtime.Apply.func1({0x38a246f11128?, 0x1027d75fc?, 0x38a2470330e0?})
+	/Users/0x1/Documents/htdocs/gopurs/gopurs-argonaut-core/output/gopurs_runtime/runtime.go:487 +0x44
+gopurs/output/gopurs_runtime.Apply({0x1, 0x0, 0x38a247065b90}, {0x1027d791c?, 0x28?, 0x38a2470330e0?})
+	/Users/0x1/Documents/htdocs/gopurs/gopurs-argonaut-core/output/gopurs_runtime/runtime.go:484 +0x6c
+gopurs/output/purescript.init.func272.1({0x0?, 0x0?})
+	/Users/0x1/Documents/htdocs/gopurs/gopurs-argonaut-core/output/purescript/Effect_ffi.go:55 +0x64
+gopurs/output/purescript.Effect_BindE(0x2?, 0x38a246f111f8, {0x38a247065bc0?, 0x10276c6d0?})
+	/Users/0x1/Documents/htdocs/gopurs/gopurs-argonaut-core/output/purescript/Effect_ffi.go:10 +0x30
+gopurs/output/purescript.init.func272({0x102ad1788?, 0x102ad2380?, 0x38a247065b90?}, {0x1027da118?, 0x0?, 0x102ad2380?}, {0x7?, 0x38a24703c080?, 0x38a2470330d0?})
+	/Users/0x1/Documents/htdocs/gopurs/gopurs-argonaut-core/output/purescript/Effect_ffi.go:64 +0x68
+gopurs/output/gopurs_runtime.Apply.func2({0x38a2470330d0?, 0x102afa240?, 0x102ad2380?}, {0x10287e628?, 0x10?, 0x38a2470330d0?})
+	/Users/0x1/Documents/htdocs/gopurs/gopurs-argonaut-core/output/gopurs_runtime/runtime.go:490 +0x54
+gopurs/output/gopurs_runtime.Apply.func1({0x38a246f11358?, 0x10287e564?, 0x38a2470330d0?})
+	/Users/0x1/Documents/htdocs/gopurs/gopurs-argonaut-core/output/gopurs_runtime/runtime.go:487 +0x44
+gopurs/output/gopurs_runtime.Apply({0x1, 0x0, 0x38a247065bf0}, {0x102aadef8?, 0x102ad2378?, 0x38a2470330d0?})
+	/Users/0x1/Documents/htdocs/gopurs/gopurs-argonaut-core/output/gopurs_runtime/runtime.go:484 +0x6c
+gopurs/output/purescript.init.func272.2.1({0x0?, 0x0?})
+	/Users/0x1/Documents/htdocs/gopurs/gopurs-argonaut-core/output/purescript/Effect_ffi.go:60 +0x64
+gopurs/output/purescript.Effect_BindE(0x38a247065ad0?, 0x38a246f11428, {0x38a246f11468?, 0x102893fcc?})
+	/Users/0x1/Documents/htdocs/gopurs/gopurs-argonaut-core/output/purescript/Effect_ffi.go:11 +0x50
+gopurs/output/purescript.init.func272({0x2?, 0x0?, 0x38a247065ad0?}, {0x1027da118?, 0x38a246f114e8?, 0x102ad2378?}, {0x28?, 0x102ab6900?, 0x38a247033090?})
+	/Users/0x1/Documents/htdocs/gopurs/gopurs-argonaut-core/output/purescript/Effect_ffi.go:64 +0x68
+gopurs/output/gopurs_runtime.Apply.func2({0x38a247033090?, 0x102afa240?, 0x102ad2378?}, {0x10287e628?, 0x10?, 0x38a247033090?})
+	/Users/0x1/Documents/htdocs/gopurs/gopurs-argonaut-core/output/gopurs_runtime/runtime.go:490 +0x54
+gopurs/output/gopurs_runtime.Apply.func1({0x38a246f11588?, 0x10287e564?, 0x38a247033090?})
+	/Users/0x1/Documents/htdocs/gopurs/gopurs-argonaut-core/output/gopurs_runtime/runtime.go:487 +0x44
+gopurs/output/gopurs_runtime.Apply({0x1, 0x0, 0x38a247065b30}, {0x102aadef8?, 0x102ad2370?, 0x38a247033090?})
+	/Users/0x1/Documents/htdocs/gopurs/gopurs-argonaut-core/output/gopurs_runtime/runtime.go:484 +0x6c
+gopurs/output/purescript.init.func272.2.1({0x0?, 0x0?})
+	/Users/0x1/Documents/htdocs/gopurs/gopurs-argonaut-core/output/purescript/Effect_ffi.go:60 +0x64
+gopurs/output/purescript.Effect_BindE(0x2?, 0x38a246f11658, {0x38a247062660?, 0x10276c6d0?})
+	/Users/0x1/Documents/htdocs/gopurs/gopurs-argonaut-core/output/purescript/Effect_ffi.go:11 +0x50
+gopurs/output/purescript.init.func272({0x102ad1788?, 0x102ad2370?, 0x38a247062630?}, {0x1027da118?, 0x0?, 0x102ad2370?}, {0x7?, 0x38a24703c080?, 0x38a247032840?})
+	/Users/0x1/Documents/htdocs/gopurs/gopurs-argonaut-core/output/purescript/Effect_ffi.go:64 +0x68
+gopurs/output/gopurs_runtime.Apply.func2({0x38a247032840?, 0x102afa240?, 0x102ad2370?}, {0x10287e628?, 0x10?, 0x38a247032840?})
+	/Users/0x1/Documents/htdocs/gopurs/gopurs-argonaut-core/output/gopurs_runtime/runtime.go:490 +0x54
+gopurs/output/gopurs_runtime.Apply.func1({0x38a246f117b8?, 0x10287e564?, 0x38a247032840?})
+	/Users/0x1/Documents/htdocs/gopurs/gopurs-argonaut-core/output/gopurs_runtime/runtime.go:487 +0x44
+gopurs/output/gopurs_runtime.Apply({0x1, 0x0, 0x38a247062690}, {0x102aadef8?, 0x102ad2368?, 0x38a247032840?})
+	/Users/0x1/Documents/htdocs/gopurs/gopurs-argonaut-core/output/gopurs_runtime/runtime.go:484 +0x6c
+gopurs/output/purescript.init.func272.2.1({0x0?, 0x0?})
+	/Users/0x1/Documents/htdocs/gopurs/gopurs-argonaut-core/output/purescript/Effect_ffi.go:60 +0x64
+gopurs/output/purescript.Effect_BindE(0x38a247062570?, 0x38a246f11888, {0x38a246f118c8?, 0x102893dac?})
+	/Users/0x1/Documents/htdocs/gopurs/gopurs-argonaut-core/output/purescript/Effect_ffi.go:11 +0x50
+gopurs/output/purescript.init.func272({0x2?, 0x0?, 0x38a247062570?}, {0x1027da118?, 0x38a246f9a948?, 0x102ad2368?}, {0x28?, 0x102ab6900?, 0x38a247032800?})
+	/Users/0x1/Documents/htdocs/gopurs/gopurs-argonaut-core/output/purescript/Effect_ffi.go:64 +0x68
+gopurs/output/gopurs_runtime.Apply.func2({0x38a247032800?, 0x102afa240?, 0x102ad2368?}, {0x10287e628?, 0x10?, 0x38a247032800?})
+	/Users/0x1/Documents/htdocs/gopurs/gopurs-argonaut-core/output/gopurs_runtime/runtime.go:490 +0x54
+gopurs/output/gopurs_runtime.Apply.func1({0x38a246f119e8?, 0x10287e564?, 0x38a247032800?})
+	/Users/0x1/Documents/htdocs/gopurs/gopurs-argonaut-core/output/gopurs_runtime/runtime.go:487 +0x44
+gopurs/output/gopurs_runtime.Apply({0x1, 0x0, 0x38a2470625d0}, {0x102aadef8?, 0x102ad2360?, 0x38a247032800?})
+	/Users/0x1/Documents/htdocs/gopurs/gopurs-argonaut-core/output/gopurs_runtime/runtime.go:484 +0x6c
+gopurs/output/purescript.init.func272.2.1({0x0?, 0x0?})
+	/Users/0x1/Documents/htdocs/gopurs/gopurs-argonaut-core/output/purescript/Effect_ffi.go:60 +0x64
+gopurs/output/purescript.Effect_BindE(0x2?, 0x38a246f11ab8, {0x38a2470023f0?, 0x10276c6d0?})
+	/Users/0x1/Documents/htdocs/gopurs/gopurs-argonaut-core/output/purescript/Effect_ffi.go:11 +0x50
+gopurs/output/purescript.init.func272({0x102ad1788?, 0x102ad2360?, 0x38a2470023c0?}, {0x1027da118?, 0x0?, 0x102ad2360?}, {0x7?, 0x38a24703c080?, 0x38a2470321e0?})
+	/Users/0x1/Documents/htdocs/gopurs/gopurs-argonaut-core/output/purescript/Effect_ffi.go:64 +0x68
+gopurs/output/gopurs_runtime.Apply.func2({0x38a2470321e0?, 0x102afa240?, 0x102ad2360?}, {0x10287e628?, 0x10?, 0x38a2470321e0?})
+	/Users/0x1/Documents/htdocs/gopurs/gopurs-argonaut-core/output/gopurs_runtime/runtime.go:490 +0x54
+gopurs/output/gopurs_runtime.Apply.func1({0x38a246f9ac18?, 0x10287e564?, 0x38a2470321e0?})
+	/Users/0x1/Documents/htdocs/gopurs/gopurs-argonaut-core/output/gopurs_runtime/runtime.go:487 +0x44
+gopurs/output/gopurs_runtime.Apply({0x1, 0x0, 0x38a247002420}, {0x102aadef8?, 0x102ad2358?, 0x38a2470321e0?})
+	/Users/0x1/Documents/htdocs/gopurs/gopurs-argonaut-core/output/gopurs_runtime/runtime.go:484 +0x6c
+gopurs/output/purescript.init.func272.2.1({0x0?, 0x0?})
+	/Users/0x1/Documents/htdocs/gopurs/gopurs-argonaut-core/output/purescript/Effect_ffi.go:60 +0x64
+gopurs/output/purescript.Effect_BindE(0x38a246f9ad18?, 0x38a246f9ace8, {0x38a247002300?, 0x102ab6900?})
+	/Users/0x1/Documents/htdocs/gopurs/gopurs-argonaut-core/output/purescript/Effect_ffi.go:11 +0x50
+gopurs/output/purescript.init.func272({0x102ad2ea0?, 0x38a24703c080?, 0x38a247002300?}, {0x38a24703c080?, 0x38a246f9ad78?, 0x102ad2358?}, {0x38a247002300?, 0x54?, 0x0?})
+	/Users/0x1/Documents/htdocs/gopurs/gopurs-argonaut-core/output/purescript/Effect_ffi.go:64 +0x68
+gopurs/output/gopurs_runtime.Apply.func2({0x0?, 0x0?, 0x102ad2358?}, {0x10276c6d0?, 0x38a24703c080?, 0x0?})
+	/Users/0x1/Documents/htdocs/gopurs/gopurs-argonaut-core/output/gopurs_runtime/runtime.go:490 +0x54
+gopurs/output/gopurs_runtime.Apply.func1({0x1028bfc88?, 0x5?, 0x0?})
+	/Users/0x1/Documents/htdocs/gopurs/gopurs-argonaut-core/output/gopurs_runtime/runtime.go:487 +0x44
+gopurs/output/gopurs_runtime.Apply({0x1, 0x0, 0x38a247002360}, {0x0?, 0x0?, 0x0?})
+	/Users/0x1/Documents/htdocs/gopurs/gopurs-argonaut-core/output/gopurs_runtime/runtime.go:484 +0x6c
+main.main()
+	/Users/0x1/Documents/htdocs/gopurs/gopurs-argonaut-core/output/main/main.go:18 +0xb0

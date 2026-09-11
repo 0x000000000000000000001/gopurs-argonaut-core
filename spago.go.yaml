@@ -101,6 +101,8 @@ workspace:
       path: "../gopurs-prelude"
     random:
       path: "../gopurs-random"
+    quickcheck:
+      path: "../gopurs-quickcheck"
     record:
       path: "../gopurs-record"
     refs:
