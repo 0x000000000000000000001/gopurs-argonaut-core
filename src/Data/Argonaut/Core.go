@@ -94,9 +94,7 @@ func FromObject(o any) any {
 	return o
 }
 
-func JsonNull() any {
-	return nil
-}
+var JsonNull any = nil
 
 func Stringify(j any) string {
 	b, _ := json.Marshal(argonautDeepUnbox(j))
