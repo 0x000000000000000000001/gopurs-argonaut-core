@@ -44,11 +44,9 @@ import Prelude
 
 import Data.Function.Uncurried (Fn5, runFn5)
 import Data.Maybe (Maybe(..))
-import Data.Tuple (Tuple)
 import Foreign.Object (Object)
 import Unsafe.Coerce (unsafeCoerce)
 import Foreign.Object as Obj
-import Foreign (tagOf, unsafeToForeign, unsafeFromForeign)
 
 -- | The type of JSON data. The underlying representation is the same as what
 -- | would be returned from JavaScript's `JSON.parse` function; that is,
