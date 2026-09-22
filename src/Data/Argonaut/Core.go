@@ -264,41 +264,29 @@ func isString(v any) bool {
 }
 
 
-func CaseJsonImpl(onNull, onBool, onNum, onStr, onArr, onObj, j any) any {
-	onNullV := onNull.(gopurs_runtime.Value)
-	onBoolV := onBool.(gopurs_runtime.Value)
-	onNumV := onNum.(gopurs_runtime.Value)
-	onStrV := onStr.(gopurs_runtime.Value)
-	onArrV := onArr.(gopurs_runtime.Value)
-	onObjV := onObj.(gopurs_runtime.Value)
-	
-	jv, ok := j.(gopurs_runtime.Value)
-	if !ok {
-		return gopurs_runtime.Apply(onNullV, gopurs_runtime.Value{})
-	}
-	
-	switch jv.Type {
+func CaseJsonImpl(onNull, onBool, onNum, onStr, onArr, onObj, j gopurs_runtime.Value) gopurs_runtime.Value {
+	switch j.Type {
 	case gopurs_runtime.TypeBool:
-		return gopurs_runtime.Apply(onBoolV, jv)
+		return gopurs_runtime.Apply(onBool, j)
 	case gopurs_runtime.TypeInt, gopurs_runtime.TypeFloat:
-		return gopurs_runtime.Apply(onNumV, jv)
+		return gopurs_runtime.Apply(onNum, j)
 	case gopurs_runtime.TypeString:
-		return gopurs_runtime.Apply(onStrV, jv)
+		return gopurs_runtime.Apply(onStr, j)
 	case gopurs_runtime.TypeArray:
-		return gopurs_runtime.Apply(onArrV, jv)
+		return gopurs_runtime.Apply(onArr, j)
 	case 0:
-		return gopurs_runtime.Apply(onNullV, gopurs_runtime.Value{})
+		return gopurs_runtime.Apply(onNull, gopurs_runtime.Value{})
 	case gopurs_runtime.TypeRecord, gopurs_runtime.TypeRecord0, gopurs_runtime.TypeRecord1, gopurs_runtime.TypeRecord2, gopurs_runtime.TypeRecord3, gopurs_runtime.TypeRecord4, gopurs_runtime.TypeRecord5:
-		return gopurs_runtime.Apply(onObjV, jv)
+		return gopurs_runtime.Apply(onObj, j)
 	case gopurs_runtime.TypeAny:
-		if jv.UnsafePtr == nil {
-			return gopurs_runtime.Apply(onNullV, gopurs_runtime.Value{})
+		if j.UnsafePtr == nil {
+			return gopurs_runtime.Apply(onNull, gopurs_runtime.Value{})
 		}
-		if *(*any)(jv.UnsafePtr) == nil {
-			return gopurs_runtime.Apply(onNullV, gopurs_runtime.Value{})
+		if *(*any)(j.UnsafePtr) == nil {
+			return gopurs_runtime.Apply(onNull, gopurs_runtime.Value{})
 		}
-		return gopurs_runtime.Apply(onObjV, jv)
+		return gopurs_runtime.Apply(onObj, j)
 	default:
-		return gopurs_runtime.Apply(onObjV, jv)
+		return gopurs_runtime.Apply(onObj, j)
 	}
 }
