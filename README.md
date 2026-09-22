@@ -8,6 +8,10 @@ for toolchain setup, sibling dependencies, Spago configuration and Go commands.
 The existing npm, Bower and Dhall commands below retain their JavaScript or
 upstream roles.
 
+The Go `jsonParser` uses a direct parser with the existing native JSON
+representation and compatible error messages. See the
+[native parser contract and tests](docs/native-parser.md).
+
 
 [![CI](https://github.com/purescript-contrib/purescript-argonaut-core/workflows/CI/badge.svg?branch=main)](https://github.com/purescript-contrib/purescript-argonaut-core/actions?query=workflow%3ACI+branch%3Amain)
 [![Release](http://img.shields.io/github/release/purescript-contrib/purescript-argonaut-core.svg)](https://github.com/purescript-contrib/purescript-argonaut-core/releases)
