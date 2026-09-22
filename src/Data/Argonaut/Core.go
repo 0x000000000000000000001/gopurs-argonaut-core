@@ -16,7 +16,7 @@ func argonautDeepUnbox(v interface{}) interface{} {
 			return val.FloatVal()
 		case gopurs_runtime.TypeString:
 			if val.UnsafePtr != nil {
-				return *(*string)(val.UnsafePtr)
+				return gopurs_runtime.StrValue(val)
 			}
 			return ""
 		case gopurs_runtime.TypeBool:
@@ -289,4 +289,76 @@ func CaseJsonImpl(onNull, onBool, onNum, onStr, onArr, onObj, j gopurs_runtime.V
 	default:
 		return gopurs_runtime.Apply(onObj, j)
 	}
+}
+
+// Single-type case analysis. These replace the generic caseJson path that
+// builds six constant callbacks per call. Dispatch matches CaseJsonImpl.
+func argoJsonIsNull(j gopurs_runtime.Value) bool {
+	if j.Type == 0 {
+		return true
+	}
+	if j.Type == gopurs_runtime.TypeAny {
+		if j.UnsafePtr == nil {
+			return true
+		}
+		return *(*any)(j.UnsafePtr) == nil
+	}
+	return false
+}
+
+func argoJsonIsScalarOrNull(j gopurs_runtime.Value) bool {
+	switch j.Type {
+	case gopurs_runtime.TypeBool, gopurs_runtime.TypeInt, gopurs_runtime.TypeFloat, gopurs_runtime.TypeString, gopurs_runtime.TypeArray:
+		return true
+	case 0:
+		return true
+	case gopurs_runtime.TypeAny:
+		return argoJsonIsNull(j)
+	default:
+		// Records, record dictionaries and every other constructor fall through
+		// to the object branch, exactly like CaseJsonImpl.
+		return false
+	}
+}
+
+func _CaseJsonNull(d, f, j gopurs_runtime.Value) gopurs_runtime.Value {
+	if argoJsonIsNull(j) {
+		return gopurs_runtime.Apply(f, gopurs_runtime.Value{})
+	}
+	return d
+}
+
+func _CaseJsonBoolean(d, f, j gopurs_runtime.Value) gopurs_runtime.Value {
+	if j.Type == gopurs_runtime.TypeBool {
+		return gopurs_runtime.Apply(f, j)
+	}
+	return d
+}
+
+func _CaseJsonNumber(d, f, j gopurs_runtime.Value) gopurs_runtime.Value {
+	if j.Type == gopurs_runtime.TypeInt || j.Type == gopurs_runtime.TypeFloat {
+		return gopurs_runtime.Apply(f, j)
+	}
+	return d
+}
+
+func _CaseJsonString(d, f, j gopurs_runtime.Value) gopurs_runtime.Value {
+	if j.Type == gopurs_runtime.TypeString {
+		return gopurs_runtime.Apply(f, j)
+	}
+	return d
+}
+
+func _CaseJsonArray(d, f, j gopurs_runtime.Value) gopurs_runtime.Value {
+	if j.Type == gopurs_runtime.TypeArray {
+		return gopurs_runtime.Apply(f, j)
+	}
+	return d
+}
+
+func _CaseJsonObject(d, f, j gopurs_runtime.Value) gopurs_runtime.Value {
+	if argoJsonIsScalarOrNull(j) {
+		return d
+	}
+	return gopurs_runtime.Apply(f, j)
 }

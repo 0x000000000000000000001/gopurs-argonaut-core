@@ -110,3 +110,54 @@ export const caseJsonImpl = function (onNull) {
     };
   };
 };
+
+// Dedicated single-type case analysis, replacing the generic path that builds
+// six constant callbacks per call. Dispatch matches caseJsonImpl.
+export const _caseJsonNull = function (d) {
+  return function (f) {
+    return function (j) {
+      return j == null ? f() : d;
+    };
+  };
+};
+
+export const _caseJsonBoolean = function (d) {
+  return function (f) {
+    return function (j) {
+      return typeof j === "boolean" ? f(j) : d;
+    };
+  };
+};
+
+export const _caseJsonNumber = function (d) {
+  return function (f) {
+    return function (j) {
+      return typeof j === "number" ? f(j) : d;
+    };
+  };
+};
+
+export const _caseJsonString = function (d) {
+  return function (f) {
+    return function (j) {
+      return typeof j === "string" ? f(j) : d;
+    };
+  };
+};
+
+export const _caseJsonArray = function (d) {
+  return function (f) {
+    return function (j) {
+      return Array.isArray(j) ? f(j) : d;
+    };
+  };
+};
+
+export const _caseJsonObject = function (d) {
+  return function (f) {
+    return function (j) {
+      if (j == null || typeof j === "boolean" || typeof j === "number" || typeof j === "string" || Array.isArray(j)) return d;
+      return f(j);
+    };
+  };
+};
