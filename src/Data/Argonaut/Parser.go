@@ -21,6 +21,71 @@ type argonautJSONParser struct {
 	pos  int
 }
 
+type argonautJSONEntry struct {
+	key   string
+	value any
+}
+
+// Small objects avoid a hash table's minimum bucket allocation. Inline fields
+// also avoid a second allocation for an interface-held slice header.
+// Each instantiation has exactly the required capacity, rather than retaining
+// an eight-field buffer for every two-field object. Larger objects use maps.
+// These methods implement gopurs_runtime.JSONObject without coupling the parser
+// itself to the boxed-value runtime.
+type argonautJSONFields interface {
+	[0]argonautJSONEntry | [1]argonautJSONEntry | [2]argonautJSONEntry | [3]argonautJSONEntry | [4]argonautJSONEntry |
+		[5]argonautJSONEntry | [6]argonautJSONEntry | [7]argonautJSONEntry | [8]argonautJSONEntry
+}
+type argonautJSONSmallObject[T argonautJSONFields] struct{ fields T }
+
+func (object *argonautJSONSmallObject[T]) JSONLength() int { return len(object.fields) }
+func (object *argonautJSONSmallObject[T]) JSONEntry(index int) (string, any) {
+	entry := object.fields[index]
+	return entry.key, entry.value
+}
+func (object *argonautJSONSmallObject[T]) JSONLookup(key string) (any, bool) {
+	for i := 0; i < len(object.fields); i++ {
+		entry := object.fields[i]
+		if entry.key == key {
+			return entry.value, true
+		}
+	}
+	return nil, false
+}
+func (object *argonautJSONSmallObject[T]) MarshalJSON() ([]byte, error) {
+	fields := make(map[string]any, len(object.fields))
+	for i := 0; i < len(object.fields); i++ {
+		entry := object.fields[i]
+		fields[entry.key] = entry.value
+	}
+	return json.Marshal(fields)
+}
+
+func argonautSmallObject(fields []argonautJSONEntry) any {
+	switch len(fields) {
+	case 0:
+		return &argonautJSONSmallObject[[0]argonautJSONEntry]{}
+	case 1:
+		return &argonautJSONSmallObject[[1]argonautJSONEntry]{[1]argonautJSONEntry{fields[0]}}
+	case 2:
+		return &argonautJSONSmallObject[[2]argonautJSONEntry]{[2]argonautJSONEntry{fields[0], fields[1]}}
+	case 3:
+		return &argonautJSONSmallObject[[3]argonautJSONEntry]{[3]argonautJSONEntry{fields[0], fields[1], fields[2]}}
+	case 4:
+		return &argonautJSONSmallObject[[4]argonautJSONEntry]{[4]argonautJSONEntry{fields[0], fields[1], fields[2], fields[3]}}
+	case 5:
+		return &argonautJSONSmallObject[[5]argonautJSONEntry]{[5]argonautJSONEntry{fields[0], fields[1], fields[2], fields[3], fields[4]}}
+	case 6:
+		return &argonautJSONSmallObject[[6]argonautJSONEntry]{[6]argonautJSONEntry{fields[0], fields[1], fields[2], fields[3], fields[4], fields[5]}}
+	case 7:
+		return &argonautJSONSmallObject[[7]argonautJSONEntry]{[7]argonautJSONEntry{fields[0], fields[1], fields[2], fields[3], fields[4], fields[5], fields[6]}}
+	case 8:
+		return &argonautJSONSmallObject[[8]argonautJSONEntry]{[8]argonautJSONEntry{fields[0], fields[1], fields[2], fields[3], fields[4], fields[5], fields[6], fields[7]}}
+	default:
+		panic("argonautSmallObject: more than eight fields")
+	}
+}
+
 // Parse the existing Json representation in one pass over the input string.
 // Keep encoding/json as the authority for malformed inputs and error messages.
 // Extracted strings own their storage, so a small result does not retain the
@@ -259,10 +324,12 @@ func (p *argonautJSONParser) object(depth int) (any, bool) {
 	}
 	p.pos++
 	p.space()
-	obj := make(map[string]any)
+	var small [8]argonautJSONEntry
+	count := 0
+	var obj map[string]any
 	if p.pos < len(p.text) && p.text[p.pos] == '}' {
 		p.pos++
-		return obj, true
+		return argonautSmallObject(nil), true
 	}
 	for {
 		key, ok := p.string()
@@ -278,7 +345,26 @@ func (p *argonautJSONParser) object(depth int) (any, bool) {
 		if !ok {
 			return nil, false
 		}
-		obj[key] = value
+		if obj != nil {
+			obj[key] = value
+		} else {
+			slot := 0
+			for slot < count && small[slot].key != key {
+				slot++
+			}
+			if slot < count {
+				small[slot].value = value
+			} else if count < len(small) {
+				small[count] = argonautJSONEntry{key, value}
+				count++
+			} else {
+				obj = make(map[string]any, count+1)
+				for _, entry := range small {
+					obj[entry.key] = entry.value
+				}
+				obj[key] = value
+			}
+		}
 		p.space()
 		if p.pos >= len(p.text) {
 			return nil, false
@@ -286,6 +372,9 @@ func (p *argonautJSONParser) object(depth int) (any, bool) {
 		c := p.text[p.pos]
 		p.pos++
 		if c == '}' {
+			if obj == nil {
+				return argonautSmallObject(small[:count]), true
+			}
 			return obj, true
 		}
 		if c != ',' {
@@ -301,17 +390,28 @@ func (p *argonautJSONParser) array(depth int) (any, bool) {
 	}
 	p.pos++
 	p.space()
-	values := make([]any, 0)
+	var small [8]any
+	count := 0
+	var values []any
 	if p.pos < len(p.text) && p.text[p.pos] == ']' {
 		p.pos++
-		return values, true
+		return []any{}, true
 	}
 	for {
 		value, ok := p.value(depth)
 		if !ok {
 			return nil, false
 		}
-		values = append(values, value)
+		if values != nil {
+			values = append(values, value)
+		} else if count < len(small) {
+			small[count] = value
+			count++
+		} else {
+			values = make([]any, count, count*2)
+			copy(values, small[:])
+			values = append(values, value)
+		}
 		p.space()
 		if p.pos >= len(p.text) {
 			return nil, false
@@ -319,6 +419,10 @@ func (p *argonautJSONParser) array(depth int) (any, bool) {
 		c := p.text[p.pos]
 		p.pos++
 		if c == ']' {
+			if values == nil {
+				values = make([]any, count)
+				copy(values, small[:count])
+			}
 			return values, true
 		}
 		if c != ',' {

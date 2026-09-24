@@ -23,6 +23,12 @@ type parserObservation struct {
 	returnedMarker bool
 }
 
+type parserObjectView interface {
+	JSONLength() int
+	JSONLookup(string) (any, bool)
+	JSONEntry(int) (string, any)
+}
+
 func observeParser(input string) parserObservation {
 	var observation parserObservation
 	marker := &observation
@@ -40,7 +46,8 @@ func observeParser(input string) parserObservation {
 }
 
 // Unlike reflect.DeepEqual or JSON re-encoding, this checks negative zero,
-// the concrete FFI types, and nil versus empty containers.
+// scalar/array FFI types and nil versus empty containers. Objects may use the
+// compact read-only representation or a native map.
 func equalParserValue(got, want any) bool {
 	switch expected := want.(type) {
 	case nil:
@@ -66,6 +73,18 @@ func equalParserValue(got, want any) bool {
 		}
 		return true
 	case map[string]any:
+		if compact, ok := got.(parserObjectView); ok {
+			if compact.JSONLength() != len(expected) {
+				return false
+			}
+			for key, item := range expected {
+				actual, present := compact.JSONLookup(key)
+				if !present || !equalParserValue(actual, item) {
+					return false
+				}
+			}
+			return true
+		}
 		value, ok := got.(map[string]any)
 		if !ok || len(value) != len(expected) || (value == nil) != (expected == nil) {
 			return false
@@ -251,6 +270,12 @@ func TestParserDoesNotRetainInput(t *testing.T) {
 				check(key)
 				walk(value)
 			}
+		case parserObjectView:
+			for i := 0; i < item.JSONLength(); i++ {
+				key, value := item.JSONEntry(i)
+				check(key)
+				walk(value)
+			}
 		}
 	}
 	walk(actual.value)
@@ -299,6 +324,13 @@ func TestParserCallbackPanicsPropagate(t *testing.T) {
 
 func normalizedParserValue(value any) any {
 	switch item := value.(type) {
+	case parserObjectView:
+		result := make(map[string]any, item.JSONLength())
+		for i := 0; i < item.JSONLength(); i++ {
+			key, value := item.JSONEntry(i)
+			result[key] = normalizedParserValue(value)
+		}
+		return []any{"object", result}
 	case nil:
 		return []any{"null"}
 	case bool:
@@ -352,6 +384,43 @@ func TestParserJavaScriptCommonCases(t *testing.T) {
 }
 
 var parserBenchmarkSink any
+
+func TestParserObjectRepresentationBoundary(t *testing.T) {
+	// Duplicate keys must retain their last value on both sides of the compact
+	// cutoff, including keys equal only after unescaping. Recursion must not
+	// overwrite a parent's scratch fields or a result from an earlier call.
+	for size := 0; size <= 20; size++ {
+		fields := make([]string, size)
+		for i := range fields {
+			fields[i] = fmt.Sprintf(`"k%d":{"nested":[%d,null]}`, i, i)
+		}
+		input := "{" + strings.Join(fields, ",") + "}"
+		if err := compareParser(input); err != nil {
+			t.Fatalf("size %d: %v", size, err)
+		}
+		if size == 0 {
+			continue
+		}
+		input = input[:len(input)-1] + `,"k0":false,"\u006b0":null}`
+		if err := compareParser(input); err != nil {
+			t.Fatalf("duplicates size %d: %v", size, err)
+		}
+		retained, err := argonautParseJSON(input)
+		if err != nil {
+			t.Fatal(err)
+		}
+		for repeat := 0; repeat < 4; repeat++ {
+			_, _ = argonautParseJSON(`{"k0":"later","nested":{"x":1}}`)
+		}
+		var expected any
+		if err := json.Unmarshal([]byte(input), &expected); err != nil {
+			t.Fatal(err)
+		}
+		if !equalParserValue(retained, expected) {
+			t.Fatal("later parses changed retained output")
+		}
+	}
+}
 
 func stdlibJSONParser(fail func(any) any, succ func(any) any, input string) any {
 	var result any

@@ -8,6 +8,14 @@ import (
 )
 
 func argonautDeepUnbox(v interface{}) interface{} {
+	if object, ok := v.(gopurs_runtime.JSONObject); ok {
+		result := make(map[string]any, object.JSONLength())
+		for i := 0; i < object.JSONLength(); i++ {
+			key, value := object.JSONEntry(i)
+			result[key] = argonautDeepUnbox(value)
+		}
+		return result
+	}
 	if val, ok := v.(gopurs_runtime.Value); ok {
 		switch val.Type {
 		case gopurs_runtime.TypeInt:
